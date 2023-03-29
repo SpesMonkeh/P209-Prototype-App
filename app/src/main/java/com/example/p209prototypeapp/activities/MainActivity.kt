@@ -1,4 +1,4 @@
-package com.example.p209prototypeapp
+package com.example.p209prototypeapp.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,22 +8,28 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.p209prototypeapp.R
+import com.example.p209prototypeapp.composables.DrawIngredientCard
 import com.example.p209prototypeapp.ui.theme.P209PrototypeAppTheme
 
 class MainActivity : ComponentActivity() {
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContent {
@@ -39,28 +45,23 @@ class MainActivity : ComponentActivity() {
 	}
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
-	Column(
-		modifier = Modifier
-			.fillMaxSize()
-			.background(MaterialTheme.colorScheme.tertiary),
-		horizontalAlignment = Alignment.CenterHorizontally,
-		verticalArrangement = Arrangement.Bottom
-	) {
-		Column(
-			modifier = Modifier.padding(10.dp),
-			horizontalAlignment = Alignment.CenterHorizontally,
-			verticalArrangement = Arrangement.Top
-		) {
-			Row(
-				modifier = Modifier.fillMaxWidth(),
-				verticalAlignment = Alignment.CenterVertically,
-				horizontalArrangement = Arrangement.Center
-			) {
-				Text(text = stringResource(R.string.app_name))
-			}
 
+	Scaffold(
+		topBar = { GreetUser() },
+		bottomBar = { DrawNavigationBar() }
+
+	) { contextPadding ->
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.background(MaterialTheme.colorScheme.tertiary)
+				.padding(contextPadding),
+			horizontalAlignment = Alignment.CenterHorizontally,
+			verticalArrangement = Arrangement.SpaceEvenly
+		) {
 			MainScreenButton(
 				label = stringResource(R.string.profil_DK),
 				onClick = { TODO() }
@@ -86,14 +87,35 @@ fun MainScreen() {
 				onClick = { TODO() }
 			)
 		}
-		DrawNavigationBar()
+	}
+}
+
+@Composable
+fun GreetUser() {
+	val user = "Johnny Bib"
+
+	Row(
+		modifier = Modifier
+			.background(Color(0xFF4FA23E))
+			.fillMaxWidth()
+			.padding(10.dp),
+		horizontalArrangement = Arrangement.Center,
+		verticalAlignment = Alignment.CenterVertically,
+
+	) {
+		Text(
+			text = "Hello $user!"
+		)
 	}
 }
 
 @Composable
 fun MainScreenButton(label: String, onClick: () -> Unit) {
 	Button(onClick = onClick) {
-		Text(label)
+		Text(
+			text = label,
+			fontSize = 24.sp
+		)
 	}
 }
 
@@ -108,21 +130,39 @@ fun DrawNavigationBar() {
 	NavigationBar(tonalElevation = 20.dp) {
 		items.forEachIndexed { index, item ->
 			NavigationBarItem(
-				icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+				icon = { Icon(
+					Icons.Filled.Favorite,
+					tint = Color(0xFF963976),
+					contentDescription = null
+				) },
 				label = { Text(item) },
 				selected = selectedItem == index,
 				onClick = { /*TODO*/ },
-				modifier = Modifier.background(MaterialTheme.colorScheme.inversePrimary)
+				modifier = Modifier.background(Color(0xFF4FA23E))
 			)
 		}
 
 	}
 }
 
-@Preview(showBackground = true)
+@Preview(
+	showBackground = true,
+	name = "Main Screen"
+)
 @Composable
-fun DefaultPreview() {
+fun MainScreenPreview() {
 	P209PrototypeAppTheme {
 		MainScreen()
+	}
+}
+
+@Preview(
+	showBackground = true,
+	name = "Ingredient Card"
+)
+@Composable
+fun IngredientCardPreview() {
+	P209PrototypeAppTheme {
+		DrawIngredientCard(Color(0xFF4FA23E))
 	}
 }
