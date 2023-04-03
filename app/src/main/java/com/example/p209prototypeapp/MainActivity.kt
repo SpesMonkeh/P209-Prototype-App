@@ -5,13 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -63,6 +57,11 @@ fun GreetUser() {
 	}
 }
 
+@Composable
+fun DineroScreenNavigation(modifier: Modifier = Modifier) {
+
+}
+
 @Preview(
 	showBackground = true,
 	name = "Ingredient Card"
@@ -71,56 +70,5 @@ fun GreetUser() {
 fun IngredientCardPreview() {
 	P209PrototypeAppTheme {
 		DrawIngredientCard(Color(0xFF4FA23E))
-	}
-}
-
-@Preview(
-	showBackground = true,
-	name = "Menu Button Preview")
-@Composable
-fun MainScreenButtonFigma() {
-	Box(
-		contentAlignment = Alignment.Center,
-		modifier = Modifier
-			.width(width = 198.dp)
-			.height(height = 92.dp)
-	) {
-		Box(
-			modifier = Modifier
-				.width(width = 198.dp)
-				.height(height = 92.dp)
-				.background(color = Color(0xffbfeaa5)))
-		Text(
-			text = "$",
-			color = Color.Black,
-			textAlign = TextAlign.Center,
-			style = TextStyle(
-				fontSize = 24.sp,
-				fontWeight = FontWeight.Bold)
-		)
-		Text(
-			text = "$",
-			color = Color.Black,
-			textAlign = TextAlign.Center,
-			style = TextStyle(
-				fontSize = 48.sp,
-				fontWeight = FontWeight.Bold))
-		Text(
-			text = "$",
-			color = Color.Black,
-			textAlign = TextAlign.Center,
-			style = TextStyle(
-				fontSize = 24.sp,
-				fontWeight = FontWeight.Bold))
-		Text(
-			text = "BUDGET",
-			color = Color(0xff2b2b2b),
-			textAlign = TextAlign.Center,
-			style = TextStyle(
-				fontSize = 20.sp,
-				fontWeight = FontWeight.Bold),
-			modifier = Modifier
-				.width(width = 99.dp)
-				.height(height = 22.dp))
 	}
 }
