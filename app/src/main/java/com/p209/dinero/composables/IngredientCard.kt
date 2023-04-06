@@ -1,4 +1,4 @@
-package com.example.p209prototypeapp.composables
+package com.p209.dinero.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,16 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.p209prototypeapp.ui.theme.P209PrototypeAppTheme
+import com.p209.dinero.ui.theme.P209PrototypeAppTheme
+import com.p209.dinero.ui.theme.Purple80
 
-data class FoodType(val name: String)
+data class FoodType(val name: String = "EMPTY")
+
+
 
 @Composable
-fun DrawIngredientCard(color: Color = Color.LightGray) {
-	val foodType = FoodType(name = "Tomato")
-
+fun DrawIngredientCard(ingredient: FoodType = FoodType(), color: Color = Purple80) {
 	Surface(
-		color = Color.Green
+		color = color
 	) {
 		Row(
 			horizontalArrangement = Arrangement.Start,
@@ -31,7 +32,18 @@ fun DrawIngredientCard(color: Color = Color.LightGray) {
 				.padding(10.dp)
 		) {
 
-			Text(text = foodType.name)
+			Text(text = ingredient.name)
 		}
+	}
+}
+
+@Preview(
+	showBackground = true,
+	name = "Ingredient Card"
+)
+@Composable
+fun IngredientCardPreview() {
+	P209PrototypeAppTheme {
+		DrawIngredientCard()
 	}
 }

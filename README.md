@@ -1,1 +1,4 @@
-# P209 Prototype App
+# P209 Dinero
+
+# Code Conventions
+- Properties: Stort forbogstav

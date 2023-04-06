@@ -12,5 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "P209 Prototype App"
-include ':app'
+rootProject.name = "DineroApp"
+include (":app")
+include (":feature")

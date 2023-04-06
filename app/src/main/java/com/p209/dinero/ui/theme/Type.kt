@@ -1,4 +1,4 @@
-package com.example.p209prototypeapp.ui.theme
+package com.p209.dinero.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

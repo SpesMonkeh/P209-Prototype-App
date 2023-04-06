@@ -9,13 +9,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.P209PrototypeApp"
+        android:theme="@style/Theme.DineroApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.p209.dinero.MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.P209PrototypeApp">
+            android:theme="@style/Theme.DineroApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
