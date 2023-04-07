@@ -24,26 +24,6 @@ import com.p209.dinero.ui.theme.P209PrototypeAppTheme
 import com.p209.dinero.R
 
 @Composable
-fun MainScreenButton(
-	label: String,
-	modifier: Modifier = Modifier,
-	onClick: () -> Unit,
-	fontSize: TextUnit = 24.sp,
-	color: Color = Color.LightGray
-) {
-	Button(
-		modifier = modifier,
-		onClick = onClick,
-	) {
-		Text(
-			text = label,
-			fontSize = fontSize,
-			modifier = modifier
-		)
-	}
-}
-
-@Composable
 fun DineroNavigationBar(modifier: Modifier = Modifier) {
 	var selectedItem by remember { mutableStateOf(0) }
 	val items = arrayOf(

@@ -1,4 +1,4 @@
-package com.p209.dinero.ui
+package com.p209.dinero.feature.pantry
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,11 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
+import com.p209.dinero.feature.pantry.R.string
 
 @Composable
 fun PantryScreen(
-	uiState: DineroUiState,
+	/* uiState: DineroUiState, */
 	contextPadding: PaddingValues,
 	modifier: Modifier = Modifier,
 	onReturnButtonClicked: () -> Unit = {}
@@ -32,7 +34,7 @@ fun PantryScreen(
 			onClick = onReturnButtonClicked,
 		) {
 			Text(
-				text = "Return To Main",
+				text = stringResource(string.return_to_main),
 				fontSize = 24.sp,
 				modifier = modifier
 			)

@@ -15,9 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.p209.dinero.ui.theme.P209PrototypeAppTheme
 import com.p209.dinero.ui.theme.Purple80
 
-data class FoodType(val name: String = "EMPTY")
-
-
+data class FoodType(val name: String = "[EMPTY]")
 
 @Composable
 fun DrawIngredientCard(ingredient: FoodType = FoodType(), color: Color = Purple80) {

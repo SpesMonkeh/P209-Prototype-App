@@ -22,9 +22,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.p209.dinero.feature.home.HomeScreen
+import com.p209.dinero.feature.pantry.PantryScreen
 import com.p209.dinero.ui.DineroViewModel
-import com.p209.dinero.ui.MainScreen
-import com.p209.dinero.ui.PantryScreen
 import com.p209.dinero.ui.components.DineroNavigationBar
 import com.p209.dinero.ui.theme.P209PrototypeAppTheme
 
@@ -78,7 +78,7 @@ fun DineroApp(modifier: Modifier = Modifier, viewModel: DineroViewModel = viewMo
 			modifier = modifier
 		) {
 			composable(route = MainScreens.Main.name) {
-				MainScreen(
+				HomeScreen(
 					uiState = uiState,
 					contextPadding = contextPadding
 				)

@@ -1,4 +1,4 @@
-package com.p209.dinero.ui
+package com.p209.dinero.feature.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,24 +10,32 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.p209.dinero.R
-import com.p209.dinero.ui.components.MainScreenButton
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun MainScreen(uiState: DineroUiState, contextPadding: PaddingValues) {
+internal fun HomeScreenRoute(
+	modifier: Modifier = Modifier,
+	viewModel: HomeScreenViewModel = viewModel()
+) {
+
+}
+
+@Composable
+fun HomeScreen(/* uiState: DineroUiState, */ contextPadding: PaddingValues) {
 	Column {
 		Row(
-			modifier = Modifier
-				.fillMaxWidth()
-				.background(MaterialTheme.colorScheme.secondary)
-				.padding(contextPadding),
+			modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.secondary).padding(contextPadding),
 			horizontalArrangement = Arrangement.Center,
 			verticalAlignment = Alignment.CenterVertically
 		) {
@@ -47,26 +55,11 @@ fun MainScreen(uiState: DineroUiState, contextPadding: PaddingValues) {
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				MainScreenButton(
-					label = stringResource(R.string.profil_DK),
+					label = stringResource(R.string.profile),
 					onClick = { /*TODO*/ }
 				)
 				MainScreenButton(
-					label = stringResource(R.string.indstillinger_DK),
-					onClick = { /*TODO*/ }
-				)
-			}
-
-			Row(
-				modifier = Modifier.fillMaxWidth(),
-				horizontalArrangement = Arrangement.Center,
-				verticalAlignment = Alignment.CenterVertically
-			) {
-				MainScreenButton(
-					label = stringResource(R.string.koeleskab_DK),
-					onClick = { /*TODO*/ }
-				)
-				MainScreenButton(
-					label = stringResource(R.string.opskrifter_DK),
+					label = stringResource(R.string.settings),
 					onClick = { /*TODO*/ }
 				)
 			}
@@ -77,14 +70,49 @@ fun MainScreen(uiState: DineroUiState, contextPadding: PaddingValues) {
 				verticalAlignment = Alignment.CenterVertically
 			) {
 				MainScreenButton(
-					label = stringResource(R.string.budget_DK),
+					label = stringResource(R.string.pantry),
 					onClick = { /*TODO*/ }
 				)
 				MainScreenButton(
-					label = stringResource(R.string.tilbudsavis_DK),
+					label = stringResource(R.string.recipes),
+					onClick = { /*TODO*/ }
+				)
+			}
+
+			Row(
+				modifier = Modifier.fillMaxWidth(),
+				horizontalArrangement = Arrangement.Center,
+				verticalAlignment = Alignment.CenterVertically
+			) {
+				MainScreenButton(
+					label = stringResource(R.string.budget),
+					onClick = { /*TODO*/ }
+				)
+				MainScreenButton(
+					label = stringResource(R.string.shop),
 					onClick = { /*TODO*/ }
 				)
 			}
 		}
+	}
+}
+
+@Composable
+fun MainScreenButton(
+	label: String,
+	modifier: Modifier = Modifier,
+	onClick: () -> Unit,
+	fontSize: TextUnit = 24.sp,
+	color: Color = Color.LightGray
+) {
+	Button(
+		modifier = modifier,
+		onClick = onClick,
+	) {
+		Text(
+			text = label,
+			fontSize = fontSize,
+			modifier = modifier
+		)
 	}
 }

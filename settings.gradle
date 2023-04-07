@@ -14,4 +14,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "DineroApp"
 include (":app")
-include (":feature")
+include (":core")
+include (":feature:budget")
+include (":feature:pantry")
+include ':feature:home'
+include ':core:model'
+include ':core:data'
