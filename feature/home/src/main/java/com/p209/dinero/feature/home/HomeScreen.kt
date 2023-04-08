@@ -3,7 +3,6 @@ package com.p209.dinero.feature.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
@@ -28,14 +29,19 @@ internal fun HomeScreenRoute(
 	modifier: Modifier = Modifier,
 	viewModel: HomeScreenViewModel = viewModel()
 ) {
-
+	val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
+	HomeScreen(onboardingUiState, modifier)
 }
 
 @Composable
-fun HomeScreen(/* uiState: DineroUiState, */ contextPadding: PaddingValues) {
+fun HomeScreen(
+	// uiState: DineroUiState,
+	onboardingUiState: OnboardingUiState,
+	modifier: Modifier = Modifier
+) {
 	Column {
 		Row(
-			modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.secondary).padding(contextPadding),
+			modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.secondary).padding(10.dp),
 			horizontalArrangement = Arrangement.Center,
 			verticalAlignment = Alignment.CenterVertically
 		) {

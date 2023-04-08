@@ -1,7 +1,7 @@
 package com.p209.dinero.ui
 
-import com.p209.dinero.MainScreens
+import com.p209.dinero.navigation.Screen
 
 data class DineroUiState(
-	val currentAppScreen: MainScreens = MainScreens.Main
+	val currentAppScreen: Screen = Screen.Home
 )

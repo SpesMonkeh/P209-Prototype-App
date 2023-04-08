@@ -1,4 +1,12 @@
 # P209 Dinero
 
 # Code Conventions
-- Properties: Stort forbogstav
+
+-- public fun:
+-- -- Stort forbogstav
+
+-- private fun:
+-- -- Lille forbogstav
+
+-- Property: 
+-- -- Stort forbogstav

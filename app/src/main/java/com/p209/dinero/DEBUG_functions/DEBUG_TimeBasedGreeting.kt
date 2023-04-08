@@ -1,4 +1,4 @@
-package com.p209.dinero.functions
+package com.p209.dinero.DEBUG_functions
 //
 //import androidx.compose.foundation.layout.Arrangement
 //import androidx.compose.foundation.layout.Column

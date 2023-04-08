@@ -15,28 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.p209.dinero.feature.home.HomeScreen
-import com.p209.dinero.feature.pantry.PantryScreen
+import com.p209.dinero.navigation.Screen
 import com.p209.dinero.ui.DineroViewModel
 import com.p209.dinero.ui.components.DineroNavigationBar
-import com.p209.dinero.ui.theme.P209PrototypeAppTheme
-
-enum class MainScreens {
-	Main,
-	Pantry,
-	Budget,
-	Settings,
-	UserSettings,
-	Discounts,
-	Recipes
-}
 
 @Composable
 fun DineroTopBar() {
@@ -61,50 +46,12 @@ fun DineroTopBar() {
 fun DineroApp(modifier: Modifier = Modifier, viewModel: DineroViewModel = viewModel()) {
 	val navController = rememberNavController()
 	val backStackEntry by navController.currentBackStackEntryAsState()
-	val currentScreen = MainScreens.valueOf(
-		backStackEntry?.destination?.route ?: MainScreens.Main.name
-	)
+	val currentScreen = backStackEntry?.destination?.route ?: Screen.Home.route
 
 	Scaffold(
 		topBar = { DineroTopBar() },
 		bottomBar = { DineroNavigationBar() },
 		containerColor = MaterialTheme.colorScheme.onSecondaryContainer
-	) { contextPadding ->
-		val uiState by viewModel.UiState.collectAsState()
-
-		NavHost(
-			navController = navController,
-			startDestination = MainScreens.Main.name,
-			modifier = modifier
-		) {
-			composable(route = MainScreens.Main.name) {
-				HomeScreen(
-					uiState = uiState,
-					contextPadding = contextPadding
-				)
-			}
-
-			composable(route = MainScreens.Pantry.name) {
-				PantryScreen(
-					uiState = uiState,
-					contextPadding = contextPadding,
-					onReturnButtonClicked = { navController.popBackStack(
-						route = MainScreens.Main.name,
-						inclusive = false
-					) }
-				)
-			}
-		}
-	}
-}
-
-@Preview(
-	showBackground = true,
-	name = "Main Screen"
-)
-@Composable
-fun MainScreenPreview() {
-	P209PrototypeAppTheme {
-		DineroApp()
+	) { val uiState by viewModel.UiState.collectAsState()
 	}
 }
