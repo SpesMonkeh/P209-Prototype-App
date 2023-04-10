@@ -13,21 +13,31 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeScreenViewModel @Inject constructor(
-	private val userDataRepo: UserDataRepository,
+	val userDataRepo: UserDataRepository,
 ) : ViewModel() {
 	private val timeOut: Long = 5_000
 	private val showOnboarding: Flow<Boolean> = userDataRepo.userData.map { it.showOnboarding }
+	val userName: String = getUserData()
+
+	fun getUserData(): String { // TODO MEGET usikker på, om dette er den rigtige måde at gøre det på. UNDERSØG :/
+		var name = ""
+		viewModelScope.launch {
+			userDataRepo.userData.map {
+				name = it.userName.toString()
+			}
+		}
+		return name
+	}
 
 	val onboardingUiState: StateFlow<OnboardingUiState> =
-		combine(showOnboarding, userDataRepo.getUserName()) {
+		combine(showOnboarding, userDataRepo.getUserNameAsFlow()) {
 			showOnboarding, userName ->
 			if(showOnboarding) {
 				OnboardingUiState.Shown(userName)
 			} else {
 				OnboardingUiState.Hidden
 			}
-		}
-			.stateIn(
+		}.stateIn(
 				scope = viewModelScope,
 				started = SharingStarted.WhileSubscribed(timeOut),
 				initialValue = OnboardingUiState.Loading
@@ -38,8 +48,14 @@ class HomeScreenViewModel @Inject constructor(
 			userDataRepo.setShowOnboarding(false)
 		}
 	}
+
+	fun updateUserName(updatedName: String) {
+		viewModelScope.launch {
+			userDataRepo.setUserName(updatedName)
+		}
+	}
 }
 
-private fun UserDataRepository.getUserName(): Flow<String> = userData.map { userData ->
+private fun UserDataRepository.getUserNameAsFlow(): Flow<String> = userData.map { userData ->
 	userData.userName ?: "[UNNAMED USER]" // TODO Midlertidig løsning, og strengen skal måske flyttes til relevant XML-resource fil.
 }

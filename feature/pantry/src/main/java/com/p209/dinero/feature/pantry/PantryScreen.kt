@@ -12,11 +12,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import com.p209.dinero.feature.pantry.R.string
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+@Composable
+internal fun PantryScreenRoute(
+	modifier: Modifier = Modifier,
+	viewModel: PantryScreenViewModel = viewModel()
+) {
+
+}
 
 @Composable
 fun PantryScreen(
-	/* uiState: DineroUiState, */
 	contextPadding: PaddingValues,
 	modifier: Modifier = Modifier,
 	onReturnButtonClicked: () -> Unit = {}
@@ -34,7 +41,7 @@ fun PantryScreen(
 			onClick = onReturnButtonClicked,
 		) {
 			Text(
-				text = stringResource(string.return_to_main),
+				text = stringResource(R.string.return_to_home_screen),
 				fontSize = 24.sp,
 				modifier = modifier
 			)

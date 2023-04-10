@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface UserDataRepository {
 
 	/**
-	 * [UserData] strømmen.
+	 * Værdi, som indeholder en reference til brugerens [UserData] såfremt, en bruger er blevet oprettet i app'en.
 	 */
 	val userData: Flow<UserData>
 

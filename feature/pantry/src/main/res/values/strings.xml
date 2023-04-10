@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pantry">Pantry</string>
-    <string name="return_to_main">Return to main</string>
-    <string name="empty">[EMPTY]</string>
+    <string name="return_to_home_screen">HOME</string>
+    <string name="pantry">PANTRY</string>
 </resources>

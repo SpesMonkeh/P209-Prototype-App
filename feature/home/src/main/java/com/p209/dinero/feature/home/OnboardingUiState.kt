@@ -26,13 +26,15 @@ sealed interface OnboardingUiState {
 	/**
 	 * Onboarding State findes.
 	 */
-	data class Shown(val userName: String): OnboardingUiState {
+	data class Shown(
+		val userName: String
+	): OnboardingUiState {
 
 		/**
 		 * `true`; hvis brugeren har opgivet et [userName]
 		 *
 		 * //[TODO] gør afhængig af andre, obligatoriske opsætningsvariable
 		 */
-		val CanBeDismissed: Boolean get() = userName.isNotEmpty()
+		val canBeDismissed: Boolean get() = userName.isNotBlank() && userName.isNotEmpty()
 	}
 }

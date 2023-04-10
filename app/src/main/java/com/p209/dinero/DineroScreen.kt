@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.p209.dinero.core.designsystem.component.DineroNavigationBar
 import com.p209.dinero.navigation.Screen
 import com.p209.dinero.ui.DineroViewModel
-import com.p209.dinero.ui.components.DineroNavigationBar
 
 @Composable
 fun DineroTopBar() {

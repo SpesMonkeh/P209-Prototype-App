@@ -20,9 +20,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.p209.dinero.MainActivityUiState.Loading
 import com.p209.dinero.MainActivityUiState.Success
+import com.p209.dinero.core.designsystem.theme.DineroTheme
 import com.p209.dinero.core.model.data.DarkThemeConfig
 import com.p209.dinero.core.model.data.ThemeBrand
-import com.p209.dinero.ui.theme.P209PrototypeAppTheme
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -69,7 +69,6 @@ class MainActivity : ComponentActivity() {
 			*	Kommentar fra Now in Android:
 			*	Update the dark content of the system bars to match the theme
 			*/
-
 			DisposableEffect(
 				key1 = systemUiController,
 				key2 = applyDarkTheme
@@ -78,7 +77,11 @@ class MainActivity : ComponentActivity() {
 				onDispose { }
 			}
 
-			P209PrototypeAppTheme {
+			DineroTheme(
+				darkTheme = applyDarkTheme,
+				androidTheme = useAndroidTheme(uiState),
+				disableDynamicTheming = disableDynamicTheming(uiState)
+			) {
 				Surface(
 					modifier = Modifier.fillMaxSize(),
 					color = MaterialTheme.colorScheme.background
