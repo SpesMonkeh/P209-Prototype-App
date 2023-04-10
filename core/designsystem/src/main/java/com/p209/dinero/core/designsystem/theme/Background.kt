@@ -7,9 +7,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 
 /**
- * **Fra Now in Android:**
+ * **Now in Android dokumentation:**
  *```
  * A class to model background color and tonal elevation values for Now in Android.
+ *
+ * `
  */
 @Immutable
 data class BackgroundTheme(
@@ -18,8 +20,10 @@ data class BackgroundTheme(
 )
 
 /**
- * **Fra Now in Android:**
+ * **Now in Android dokumentation:**
  *```
  * A composition local for [BackgroundTheme].
+ *
+ * `
  */
 val LocalBackgroundTheme: ProvidableCompositionLocal<BackgroundTheme> = staticCompositionLocalOf { BackgroundTheme() }

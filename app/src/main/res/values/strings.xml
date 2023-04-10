@@ -8,4 +8,5 @@
     <string name="tilbudsavis_DK">Tilbudsavis</string>
     <string name="greet_morning">Good morning, %s!</string>
     <string name="title_model">Model</string>
+    <string name="user_is_offline">You are not connected to the internet</string>
 </resources>

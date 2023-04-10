@@ -8,11 +8,11 @@ import com.p209.dinero.feature.budget.BudgetScreenRoute
 
 const val BUDGET_SCREEN_NAVIGATION_ROUTE = "budget_screen_route"
 
-fun NavController.navigateToPantry(navOptions: NavOptions? = null) {
+fun NavController.navigateToBudget(navOptions: NavOptions? = null) {
 	this.navigate(BUDGET_SCREEN_NAVIGATION_ROUTE, navOptions)
 }
 
-fun NavGraphBuilder.pantryScreen() {
+fun NavGraphBuilder.budgetScreen() {
 	composable(route = BUDGET_SCREEN_NAVIGATION_ROUTE) {
 		BudgetScreenRoute()
 	}

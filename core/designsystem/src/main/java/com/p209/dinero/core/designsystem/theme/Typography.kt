@@ -6,9 +6,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 /**
- * **Fra Now in Android:**
- * ```
+ * **Now in Android dokumentation:**
+ *
  * Now in Android typography.
+ *
+ * `
  */
 internal val DineroTypography = Typography(
 	displayLarge = TextStyle(

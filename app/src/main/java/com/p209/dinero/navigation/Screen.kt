@@ -9,7 +9,6 @@ sealed class Screen(val route: String) {
 	object Pantry: Screen(PANTRY)
 	object Budget: Screen(BUDGET)
 
-
 	// TODO INDSÆT => object Settings: Screen(settingsR.string.settings)
 	// TODO INDSÆT => object Profile: Screen(profileR.string.profile)
 	// TODO INDSÆT => object Shop: Screen(shopR.string.shop)

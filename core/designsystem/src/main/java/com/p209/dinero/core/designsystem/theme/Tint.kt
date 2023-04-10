@@ -6,9 +6,11 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 /**
- * **Fra Now in Android:**
+ * **Now in Android dokumentation:**
  *
  * A class to model background color and tonal elevation values for Now in Android.
+ *
+ * `
  */
 @Immutable
 data class TintTheme(
@@ -16,8 +18,10 @@ data class TintTheme(
 )
 
 /**
- * **Fra Now in Android:**
- *```
+ * **Now in Android dokumentation:**
+ *
  * A composition local for [TintTheme].
+ *
+ * `
  */
 val LocalTintTheme: ProvidableCompositionLocal<TintTheme> = staticCompositionLocalOf { TintTheme() }

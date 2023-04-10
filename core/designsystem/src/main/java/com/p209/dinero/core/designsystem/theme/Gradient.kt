@@ -6,13 +6,15 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 /**
- * **Fra Now in Android:**
- *```
+ * **Now in Android dokumentation:**
+ *
  * A class to model gradient color values for Now in Android.
  *
  * @param top The top gradient color to be rendered.
  * @param bottom The bottom gradient color to be rendered.
  * @param container The container gradient color over which the gradient will be rendered.
+ *
+ * `
  */
 @Immutable
 data class GradientColors(
@@ -22,8 +24,10 @@ data class GradientColors(
 )
 
 /**
- * **Fra Now in Android:**
- * ```
+ * **Now in Android dokumentation:**
+ *
  * A composition local for [GradientColors]
+ *
+ * `
  */
 val LocalGradientColors: ProvidableCompositionLocal<GradientColors> = staticCompositionLocalOf { GradientColors() }

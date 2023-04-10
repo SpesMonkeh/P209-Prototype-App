@@ -6,6 +6,8 @@ import androidx.compose.ui.graphics.Color
  * Dinero farvepalette.
  *
  * [TODO] Er pt. en kopi af *Now in Androids* farvepalette.
+ *
+ * `
  */
 internal val Blue10 = Color(0xFF001F28)
 internal val Blue20 = Color(0xFF003544)
