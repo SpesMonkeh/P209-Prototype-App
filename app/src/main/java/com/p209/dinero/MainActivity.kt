@@ -8,6 +8,8 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -20,14 +22,21 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.p209.dinero.MainActivityUiState.Loading
 import com.p209.dinero.MainActivityUiState.Success
+import com.p209.dinero.core.data.util.NetworkMonitor
 import com.p209.dinero.core.designsystem.theme.DineroTheme
 import com.p209.dinero.core.model.data.DarkThemeConfig
 import com.p209.dinero.core.model.data.ThemeBrand
+import com.p209.dinero.ui.DineroApp
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 class MainActivity : ComponentActivity() {
+
+	@Inject
+	lateinit var networkMonitor: NetworkMonitor
 
 	val viewModel: MainActivityViewModel by viewModels()
 
@@ -50,7 +59,7 @@ class MainActivity : ComponentActivity() {
 			}
 		}
 
-		// Kommentar fra Now in Android:
+		// Now in Android kommentar:
 		// Keep the splash screen on-screen until the UI state is loaded. This condition is
 		// evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
 		// the UI.
@@ -66,7 +75,7 @@ class MainActivity : ComponentActivity() {
 			val applyDarkTheme: Boolean = useDarkTheme(uiState)
 
 			/*
-			*	Kommentar fra Now in Android:
+			*	Now in Android kommentar:
 			*	Update the dark content of the system bars to match the theme
 			*/
 			DisposableEffect(
@@ -86,7 +95,10 @@ class MainActivity : ComponentActivity() {
 					modifier = Modifier.fillMaxSize(),
 					color = MaterialTheme.colorScheme.background
 				) {
-					DineroApp()
+					DineroApp(
+						networkMonitor = networkMonitor,
+						windowSizeClass = calculateWindowSizeClass(this)
+					)
 				}
 			}
 		}

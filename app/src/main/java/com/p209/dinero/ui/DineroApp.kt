@@ -20,6 +20,7 @@ import androidx.compose.material3.SnackbarDuration.Indefinite
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,11 +46,11 @@ import com.p209.dinero.core.designsystem.component.DineroNavigationBarItem
 import com.p209.dinero.core.designsystem.component.DineroNavigationRail
 import com.p209.dinero.core.designsystem.component.DineroNavigationRailItem
 import com.p209.dinero.core.designsystem.component.DineroTopAppBar
-import com.p209.dinero.core.designsystem.component.DineroTopBar
 import com.p209.dinero.core.designsystem.icon.DineroIcons
 import com.p209.dinero.core.designsystem.icon.Icon
 import com.p209.dinero.core.designsystem.theme.GradientColors
 import com.p209.dinero.core.designsystem.theme.LocalGradientColors
+import com.p209.dinero.navigation.DineroNavHost
 import com.p209.dinero.navigation.TopLevelDestination
 
 @OptIn(ExperimentalComposeUiApi::class,
@@ -142,11 +143,21 @@ fun DineroApp(
 						if (destination != null) {
 							DineroTopAppBar(
 								titleResource = destination.titleTextId,
+								actionIcon = DineroIcons.TEST_chefs_hat, // TODO Udskift TEST_chefs_hat
 								actionIconContentDescription = null, // TODO Giv beskrivelse
+								colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+									containerColor = Color.Transparent
+								),
+								onActionClick = { appState.setShowSettingsDialog(true) }
 							)
 						}
 
+						DineroNavHost(appState.navController)
 					}
+
+					// Now in Android TODO
+					// We may want to add padding or spacer when the snack bar is shown so that
+					// content doesn't display behind it.
 				}
 
 			}

@@ -48,7 +48,7 @@ fun rememberDineroAppState(
 	}
 }
 
-data class DineroUiState(
+data class DineroUiState( // TODO Tjek, om denne class er nødvendig
 	val currentAppScreen: Screen = Screen.Home
 )
 
