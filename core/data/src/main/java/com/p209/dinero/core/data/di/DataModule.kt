@@ -1,5 +1,6 @@
 package com.p209.dinero.core.data.di
 
+import com.p209.dinero.core.data.repository.OfflineFirstUserDataRepository
 import com.p209.dinero.core.data.repository.UserDataRepository
 import com.p209.dinero.core.data.util.ConnectivityManagerNetworkMonitor
 import com.p209.dinero.core.data.util.NetworkMonitor

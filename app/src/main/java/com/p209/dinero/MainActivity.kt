@@ -119,7 +119,7 @@ class MainActivity : ComponentActivity() {
 /**
  * **Now in Android dokumentation:**
  *
- * Returns<br/> `true` if the Android theme should be used, as a function of the [uiState].
+ * Returns `true` if the Android theme should be used, as a function of the [uiState].
  *
  * `
  */

@@ -7,16 +7,29 @@ interface UserDataRepository {
 
 	/**
 	 * Værdi, som indeholder en reference til brugerens [UserData] såfremt, en bruger er blevet oprettet i app'en.
+	 *
+	 * `
 	 */
 	val userData: Flow<UserData>
 
 	/**
 	 * Vælg, om brugeren har gennemført onboarding-processen.
+	 *
+	 * `
 	 */
 	suspend fun setHideOnboarding(hideOnboarding: Boolean)
 
 	/**
 	 * Sæt brugerens valgte brugernavn.
+	 *
+	 * `
 	 */
 	suspend fun setUserName(userName: String)
+
+	/**
+	 * Vælg, om app'ens tema skal benytte sig af Dynamic Color.
+	 *
+	 * `
+	 */
+	suspend fun setUseDynamicColor(useDynamicColor: Boolean)
 }

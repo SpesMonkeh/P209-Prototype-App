@@ -36,9 +36,13 @@ android {
 }
 
 dependencies {
+
+    // Dinero
     implementation project(path: ':core:datastore')
     implementation project(path: ':core:model')
 
+    // ==============================================================
+    // Android
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.compose.material3:material3:1.1.0-beta02'
@@ -47,6 +51,8 @@ dependencies {
     implementation 'com.google.dagger:hilt-android:2.45'
     kapt 'com.google.dagger:hilt-android-compiler:2.45'
 
+    // ==============================================================
+    // DEBUGGING
     testImplementation 'junit:junit:4.13.2'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

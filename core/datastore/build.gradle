@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.library'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
 android {
@@ -28,18 +31,40 @@ android {
     kotlinOptions {
         jvmTarget = 17
     }
+
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 dependencies {
-    implementation project(':core:model')
 
+    // Dinero
+    implementation project(path: ':core:common')
+    implementation project(path: ':core:model')
+
+    // ==============================================================
+    // Android
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.datastore:datastore-core:1.0.0'
-    implementation 'com.google.protobuf:0.8.19'
+    implementation 'androidx.compose.material3:material3:1.1.0-beta02'
 
+    // Dagger - Hilt
+    implementation 'com.google.dagger:hilt-android:2.45'
+    kapt 'com.google.dagger:hilt-android-compiler:2.45'
+
+    // Java
     implementation 'javax.inject:javax.inject:1'
+
+    // Kotlin
+    implementation 'org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.5' // TODO Fjern, hvis ingen Lists skal serialiseres
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.5.0'
+
+    // Proto DataStore
+    implementation 'androidx.datastore:datastore:1.0.0'
+
+    // ==============================================================
+    // DEBUGGING
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

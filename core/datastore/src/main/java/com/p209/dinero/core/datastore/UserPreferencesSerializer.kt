@@ -1,33 +1,40 @@
 package com.p209.dinero.core.datastore
 
-import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
+import com.p209.dinero.core.datastore.preferences.UserPreferences
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
-import com.google.protobuf.InvalidProtocolBufferException
 
-/** **Now in Android dokumentation:
- *
- * An [androidx.datastore.core.Serializer] for the [UserPreferences] proto.
+/** En [Serializer] af værdier fra [UserPreferences].
  *
  * `
  */
+@Suppress("BlockingMethodInNonBlockingContext")
 class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
-	override val defaultValue: UserPreferences = UserPreferences.getDefaultInstance()
+	override val defaultValue: UserPreferences
+		get() = UserPreferences()
 
-	override suspend fun readFrom(input: InputStream): UserPreferences =
-		try {
-			// readFrom is already called on the data store background thread
-			@Suppress("BlockingMethodInNonBlockingContext")
-			UserPreferences.parseFrom(input)
-		} catch (exception: InvalidProtocolBufferException) {
-			throw CorruptionException("Cannot read proto", exception)
+	override suspend fun readFrom(input: InputStream): UserPreferences {
+		return try {
+			Json.decodeFromString(
+				deserializer = UserPreferences.serializer(),
+				string = input.readBytes().decodeToString()
+			)
+		} catch (serializationException: SerializationException) {
+			serializationException.printStackTrace()
+			defaultValue
 		}
+	}
 
 	override suspend fun writeTo(t: UserPreferences, output: OutputStream) {
-		// writeTo is already called on the data store background thread
-		@Suppress("BlockingMethodInNonBlockingContext")
-		t.writeTo(output)
+		output.write(
+			Json.encodeToString(
+				serializer = UserPreferences.serializer(),
+				value = t
+			).encodeToByteArray()
+		)
 	}
 }
