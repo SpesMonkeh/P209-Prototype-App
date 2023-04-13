@@ -42,7 +42,7 @@ fun DineroNavigationBar(modifier: Modifier = Modifier) {
 				label = { Text(item) },
 				selected = selectedItem == index,
 				onClick = { /*TODO*/ },
-				modifier = Modifier.background(Color(0xFF4FA23E))
+				modifier = modifier.background(Color(0xFF4FA23E))
 			)
 		}
 	}

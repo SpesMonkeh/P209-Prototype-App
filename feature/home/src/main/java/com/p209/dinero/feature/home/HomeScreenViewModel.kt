@@ -1,8 +1,9 @@
 package com.p209.dinero.feature.home
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.p209.dinero.core.data.repository.UserDataRepository
+import com.p209.dinero.core.model.data.UserData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -12,11 +13,12 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class HomeScreenViewModel @Inject constructor(
 	val userDataRepo: UserDataRepository,
 ) : ViewModel() {
 	private val timeOut: Long = 5_000
-	private val showOnboarding: Flow<Boolean> = userDataRepo.userData.map { it.showOnboarding }
+	private val showOnboarding: Flow<Boolean> = userDataRepo.userData.map { !it.hideOnboarding }
 	val userName: String = getUserData()
 
 	fun getUserData(): String { // TODO MEGET usikker på, om dette er den rigtige måde at gøre det på. UNDERSØG :/
@@ -45,7 +47,7 @@ class HomeScreenViewModel @Inject constructor(
 
 	fun dismissOnboarding() {
 		viewModelScope.launch {
-			userDataRepo.setShowOnboarding(false)
+			userDataRepo.setHideOnboarding(true)
 		}
 	}
 

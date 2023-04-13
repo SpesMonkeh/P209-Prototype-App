@@ -13,7 +13,7 @@ interface UserDataRepository {
 	/**
 	 * Vælg, om brugeren har gennemført onboarding-processen.
 	 */
-	suspend fun setShowOnboarding(showOnboarding: Boolean)
+	suspend fun setHideOnboarding(hideOnboarding: Boolean)
 
 	/**
 	 * Sæt brugerens valgte brugernavn.

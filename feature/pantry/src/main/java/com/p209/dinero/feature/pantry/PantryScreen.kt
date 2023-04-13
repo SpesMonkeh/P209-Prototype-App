@@ -12,12 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 internal fun PantryScreenRoute(
 	modifier: Modifier = Modifier,
-	viewModel: PantryScreenViewModel = viewModel()
+	viewModel: PantryScreenViewModel = hiltViewModel()
 ) {
 
 }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -27,12 +28,14 @@ import com.p209.dinero.core.designsystem.theme.DineroTheme
 import com.p209.dinero.core.model.data.DarkThemeConfig
 import com.p209.dinero.core.model.data.ThemeBrand
 import com.p209.dinero.ui.DineroApp
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
 	@Inject
@@ -47,8 +50,9 @@ class MainActivity : ComponentActivity() {
 
 		var uiState: MainActivityUiState by mutableStateOf(Loading)
 
-		// Kommentar fra Now in Android:
-		// Update the UiState
+		/* Kommentar fra Now in Android:
+		 * Update the UiState
+		 */
 		lifecycleScope.launch {
 			lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
 				viewModel.uiState
@@ -59,23 +63,30 @@ class MainActivity : ComponentActivity() {
 			}
 		}
 
-		// Now in Android kommentar:
-		// Keep the splash screen on-screen until the UI state is loaded. This condition is
-		// evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
-		// the UI.
+		/* Now in Android kommentar:
+		 * Keep the splash screen on-screen until the UI state is loaded. This condition is
+		 * evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
+		 * the UI.
+		 */
 
-		/* splashScreen.setKeepOnScreenCondition {
-		*  		when (uiState) {
-		* 			Loading -> true
-		* 			is Success -> false
-		*/
+		// splashScreen.setKeepOnScreenCondition {
+		// 		when (uiState) {
+		//			Loading -> true
+		//			is Success -> false
+		//
+
+		/*  Now in Android kommentar:
+		 *  Turn off the decor fitting system windows, which allows us to handle insets,
+		 *  including IME animations
+		 */
+		WindowCompat.setDecorFitsSystemWindows(window, false)
 
 		setContent {
 			val systemUiController = rememberSystemUiController()
 			val applyDarkTheme: Boolean = useDarkTheme(uiState)
 
-			/*
-			*	Now in Android kommentar:
+
+			/*	Now in Android kommentar:
 			*	Update the dark content of the system bars to match the theme
 			*/
 			DisposableEffect(
@@ -106,9 +117,11 @@ class MainActivity : ComponentActivity() {
 }
 
 /**
- * Dokumentation fra Now in Android:
- * ```
+ * **Now in Android dokumentation:**
+ *
  * Returns<br/> `true` if the Android theme should be used, as a function of the [uiState].
+ *
+ * `
  */
 @Composable
 private fun useAndroidTheme(
@@ -122,9 +135,11 @@ private fun useAndroidTheme(
 }
 
 /**
- * Dokumentation fra Now in Android:
- *```
+ * **Now in Android dokumentation:**
+ *
  * Returns `true` if the dynamic color is disabled, as a function of the [uiState].
+ *
+ * `
  */
 @Composable
 private fun disableDynamicTheming(
@@ -135,10 +150,12 @@ private fun disableDynamicTheming(
 }
 
 /**
- * Dokumentation fra Now in Android:
- *```
+ * **Now in Android dokumentation:**
+ *
  * Returns `true` if dark theme should be used, as a function of the [uiState] and the
  * current system context.
+ *
+ * `
  */
 @Composable
 private fun useDarkTheme(

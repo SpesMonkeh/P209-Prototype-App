@@ -12,13 +12,16 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "DineroApp"
+rootProject.name = "dinero"
 include (":app")
-include (":core")
+
 include (":feature:budget")
-include ':feature:home'
-include ':core:data'
-include ':core:domain'
-include ':feature:pantry'
-include ':core:designsystem'
-include ':core:model'
+include (":feature:home")
+include (":feature:pantry")
+
+include (":core:data")
+include (":core:designsystem")
+include (":core:domain")
+include (":core:model")
+include ':core:datastore'
+include ':core:common'
