@@ -3,6 +3,7 @@ package com.p209.dinero.feature.settings
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,12 +12,22 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.*
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
-import androidx.compose.ui.platform.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,12 +35,16 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.p209.dinero.core.designsystem.theme.*
-import com.p209.dinero.core.model.data.*
+import com.p209.dinero.core.designsystem.theme.DineroTheme
+import com.p209.dinero.core.designsystem.theme.supportsDynamicTheming
+import com.p209.dinero.core.model.data.DarkThemeConfig
+import com.p209.dinero.core.model.data.ThemeBrand
+import com.p209.dinero.feature.settings.R.string
 
 @Composable
 fun SettingsDialog(
 	onDismiss: () -> Unit,
+	versionName: String,
 	viewModel: SettingsViewModel = hiltViewModel(),
 ) {
 	val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
@@ -39,19 +54,22 @@ fun SettingsDialog(
 		settingsUiState = settingsUiState,
 		onChangeThemeBrand = viewModel::updateThemeBrand,
 		onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
-		onChangeDarkThemeConfig = viewModel::updateDarkThemeConfig
+		onChangeDarkThemeConfig = viewModel::updateDarkThemeConfig,
+		onChangeUsername = viewModel::updateUsername,
+		versionName = versionName,
 	)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsDialog(
-	settingsUiState: SettingsUiState,
-	supportDynamicColor: Boolean = supportsDynamicTheming(),
 	onDismiss: () -> Unit,
+	settingsUiState: SettingsUiState,
 	onChangeThemeBrand: (themeBrand:ThemeBrand) -> Unit,
 	onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
 	onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
+	onChangeUsername: (username: String) -> Unit,
+	versionName: String = "x.y.z",
+	supportDynamicColor: Boolean = supportsDynamicTheming(),
 ) {
 	val configuration = LocalConfiguration.current
 
@@ -70,7 +88,7 @@ fun SettingsDialog(
 		onDismissRequest = { onDismiss() },
 		title = {
 			Text(
-				text = "Settings", // TODO flyt til String Resources
+				text = stringResource(string.settings_title),
 				style = MaterialTheme.typography.titleLarge
 			)
 		},
@@ -80,7 +98,7 @@ fun SettingsDialog(
 				when (settingsUiState) {
 					SettingsUiState.Loading -> {
 						Text(
-							text = "Loading...", // TODO flyt til String Resources
+							text = stringResource(string.loading),
 							modifier = Modifier.padding(vertical = 16.dp)
 						)
 					}
@@ -89,6 +107,7 @@ fun SettingsDialog(
 						SettingsPanel(
 							settings = settingsUiState.settings,
 							supportDynamicColor = supportDynamicColor,
+							onChangeUsername = onChangeUsername,
 							onChangeThemeBrand = onChangeThemeBrand,
 							onChangeDynamicColorPreference = onChangeDynamicColorPreference,
 							onChangeDarkThemeConfig = onChangeDarkThemeConfig
@@ -96,13 +115,18 @@ fun SettingsDialog(
 					}
 				}
 				Divider(Modifier.padding(top = 8.dp))
+
 				LinksPanel()
+
+				Divider(Modifier.padding(top = 8.dp))
+
+				AppVersionPanel(versionName)
 			}
 			// TrackScreenViewEvent(screenName = "Settings")
 		},
 		confirmButton = {
 			Text(
-				text = "OK", // TODO flyt til String Resources
+				text = stringResource(string.ok),
 				style = MaterialTheme.typography.labelLarge,
 				color = MaterialTheme.colorScheme.primary,
 				modifier = Modifier
@@ -114,56 +138,124 @@ fun SettingsDialog(
 }
 
 @Composable
+fun AppVersionPanel(versionName: String) {
+	Row(
+		modifier = Modifier.padding(top = 16.dp),
+		horizontalArrangement = Arrangement.Center
+	)  {
+		Text(
+			text = stringResource(string.app_version_name, versionName),
+			style = MaterialTheme.typography.labelLarge,
+			color = MaterialTheme.colorScheme.primary,
+			modifier = Modifier
+				.padding(vertical = 8.dp)
+		)
+	}
+}
+
+@Composable
 private fun SettingsPanel(
 	settings: UserEditableSettings,
 	supportDynamicColor: Boolean,
+	onChangeUsername: (username: String) -> Unit,
 	onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
 	onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
 	onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit
 ) {
-	SettingsDialogSectionTitle(text = "Theme") // TODO flyt string til String Resources
+	val userCanChangeDynamicColor = settings.brand == ThemeBrand.DEFAULT
+			&& supportDynamicColor
+
+	SettingsDialogSectionTitle(text = stringResource(string.username))
+	Column(Modifier.selectableGroup()) {
+		OutlinedTextField(
+			value = settings.username,
+			onValueChange = { onChangeUsername(it) }
+		)
+	}
+
+	ShowThemeBrandSetting(
+		currentThemeBrand = settings.brand,
+		onChangeThemeBrand = onChangeThemeBrand,
+	)
+
+	ShowUseDynamicColorSettingIfPossible(
+		canChangeDynamicColor = userCanChangeDynamicColor,
+		useDynamicColor = settings.useDynamicColor,
+		onChangeDynamicColorPreference = onChangeDynamicColorPreference,
+	)
+
+	ShowDarkModePreferenceSetting(
+		currentDarkThemeConfig = settings.darkThemeConfig,
+		onChangeDarkThemeConfig = onChangeDarkThemeConfig,
+	)
+}
+
+@Composable
+private fun ShowThemeBrandSetting(
+	currentThemeBrand: ThemeBrand,
+	onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
+) {
+	SettingsDialogSectionTitle(stringResource(string.theme))
+
 	Column(Modifier.selectableGroup()) {
 		SettingsDialogThemeChooserRow(
-			text = "Default", // TODO flyt string til String Resources
-			selected = settings.brand == ThemeBrand.DEFAULT,
+			text = stringResource(string.brand_default),
+			selected = currentThemeBrand == ThemeBrand.DEFAULT,
 			onClick = { onChangeThemeBrand(ThemeBrand.DEFAULT) }
 		)
 		SettingsDialogThemeChooserRow(
-			text = "Android", // TODO flyt string til String Resources
-			selected = settings.brand == ThemeBrand.ANDROID,
+			text = stringResource(string.brand_android),
+			selected = currentThemeBrand  == ThemeBrand.ANDROID,
 			onClick = { onChangeThemeBrand(ThemeBrand.ANDROID) }
 		)
 	}
-	if (settings.brand == ThemeBrand.DEFAULT && supportDynamicColor) {
-		SettingsDialogSectionTitle(text = "Use Dynamic Color") // TODO flyt string til String Resources
-		Column(Modifier.selectableGroup()) {
-			SettingsDialogThemeChooserRow(
-				text = "Yes", // TODO flyt string til String Resources
-				selected = settings.useDynamicColor,
-				onClick = { onChangeThemeBrand(ThemeBrand.ANDROID) }
-			)
-			SettingsDialogThemeChooserRow(
-				text = "No", // TODO flyt string til String Resources
-				selected = settings.useDynamicColor,
-				onClick = { onChangeThemeBrand(ThemeBrand.ANDROID) }
-			)
-		}
-	}
-	SettingsDialogSectionTitle(text = "Dark mode preference") // TODO flyt string til String Resources
+}
+
+@Composable
+private fun ShowUseDynamicColorSettingIfPossible(
+	canChangeDynamicColor: Boolean,
+	useDynamicColor: Boolean,
+	onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
+) {
+	if (!canChangeDynamicColor) return
+
+	SettingsDialogSectionTitle(stringResource(string.use_dynamic_color))
+
 	Column(Modifier.selectableGroup()) {
 		SettingsDialogThemeChooserRow(
-			text = "System default", // TODO flyt string til String Resources
-			selected = settings.darkThemeConfig == DarkThemeConfig.FOLLOW_SYSTEM,
+			text = stringResource(string.yes),
+			selected = useDynamicColor,
+			onClick = { onChangeDynamicColorPreference(true) }
+		)
+		SettingsDialogThemeChooserRow(
+			text = stringResource(string.no),
+			selected = useDynamicColor,
+			onClick = { onChangeDynamicColorPreference(false) }
+		)
+	}
+}
+
+@Composable
+fun ShowDarkModePreferenceSetting(
+	currentDarkThemeConfig: DarkThemeConfig,
+	onChangeDarkThemeConfig: (DarkThemeConfig: DarkThemeConfig) -> Unit,
+) {
+	SettingsDialogSectionTitle(stringResource(string.dark_mode_preference))
+
+	Column(Modifier.selectableGroup()) {
+		SettingsDialogThemeChooserRow(
+			text = stringResource(string.dark_mode_config_system),
+			selected = currentDarkThemeConfig == DarkThemeConfig.FOLLOW_SYSTEM,
 			onClick = { onChangeDarkThemeConfig(DarkThemeConfig.FOLLOW_SYSTEM) }
 		)
 		SettingsDialogThemeChooserRow(
-			text = "Light", // TODO flyt string til String Resources
-			selected = settings.darkThemeConfig == DarkThemeConfig.LIGHT,
+			text = stringResource(string.dark_mode_config_light),
+			selected = currentDarkThemeConfig == DarkThemeConfig.LIGHT,
 			onClick = { onChangeDarkThemeConfig(DarkThemeConfig.LIGHT) }
 		)
 		SettingsDialogThemeChooserRow(
-			text = "Dark", // TODO flyt string til String Resources
-			selected = settings.darkThemeConfig == DarkThemeConfig.DARK,
+			text = stringResource(string.dark_mode_config_dark),
+			selected = currentDarkThemeConfig == DarkThemeConfig.DARK,
 			onClick = { onChangeDarkThemeConfig(DarkThemeConfig.DARK) }
 		)
 	}
@@ -266,11 +358,13 @@ private fun PreviewSettingsDialog() {
 					brand =  ThemeBrand.DEFAULT,
 					darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
 					useDynamicColor = false,
+					username = "Johnny Bib"
 				),
 			),
 			onChangeThemeBrand = {},
 			onChangeDynamicColorPreference = {},
 			onChangeDarkThemeConfig = {},
+			onChangeUsername = {},
 		)
 	}
 }
@@ -284,7 +378,8 @@ private fun PreviewSettingsDialogLoading() {
 			settingsUiState = SettingsUiState.Loading,
 			onChangeThemeBrand = {},
 			onChangeDynamicColorPreference = {},
-			onChangeDarkThemeConfig = {}
+			onChangeDarkThemeConfig = {},
+			onChangeUsername = {},
 		)
 	}
 }

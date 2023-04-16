@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- SETTINGS DIALOG -->
+    <string name="settings_icon_description">Settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">OK</string>
+    <string name="loading">Loading…</string>
+
+    <!-- USER-RELATED SETTINGS -->
+    <string name="username">Username</string>
+
+    <!-- THEME-RELATED SETTINGS -->
+    <string name="brand_default">Default</string>
+    <string name="brand_android">Android</string>
+    <string name="theme">Theme</string>
+    <string name="use_dynamic_color">Use Dynamic Color</string>
+
+    <!-- DARK-MODE SETTINGS -->
+    <string name="dark_mode_preference">Dark mode preference</string>
+    <string name="dark_mode_config_system">System default</string>
+    <string name="dark_mode_config_light">Light</string>
+    <string name="dark_mode_config_dark">Dark</string>
+    <string name="app_version_name">v%s</string>
+
+</resources>

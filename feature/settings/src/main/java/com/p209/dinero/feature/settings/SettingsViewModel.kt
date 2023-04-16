@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,6 +25,7 @@ class SettingsViewModel @Inject constructor(
 						brand = userData.themeBrand,
 						useDynamicColor = userData.useDynamicColor,
 						darkThemeConfig = userData.darkThemeConfig,
+						username = userData.username ?: "[NOT PROVIDED]"
 					),
 				)
 			}
@@ -40,23 +42,42 @@ class SettingsViewModel @Inject constructor(
 				initialValue = SettingsUiState.Loading,
 			)
 
-	fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+	fun updateUsername(username: String) {
+		viewModelScope.launch {
+			userDataRepo.setUsername(username)
+		}
+	}
 
+	fun updateDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
+		viewModelScope.launch {
+			userDataRepo.setDarkThemeConfig(darkThemeConfig)
+		}
 	}
 
 	fun updateDynamicColorPreference(useDynamicColor: Boolean) {
-
+		viewModelScope.launch {
+			userDataRepo.setUseDynamicColor(useDynamicColor)
+		}
 	}
 
 	fun updateThemeBrand(themeBrand: ThemeBrand) {
-
+		viewModelScope.launch {
+			userDataRepo.setThemeBrand(themeBrand)
+		}
 	}
 }
 
+/** *Data Class*
+ *
+ *  Indeholder de indstillinger, som det er muligt for brugeren at justere på.
+ *
+ *  `
+ */
 data class UserEditableSettings(
 	val brand: ThemeBrand,
 	val useDynamicColor: Boolean,
-	val darkThemeConfig: DarkThemeConfig
+	val darkThemeConfig: DarkThemeConfig,
+	val username: String,
 )
 
 sealed interface SettingsUiState {

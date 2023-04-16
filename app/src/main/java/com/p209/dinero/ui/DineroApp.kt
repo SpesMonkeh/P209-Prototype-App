@@ -37,6 +37,7 @@ import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import com.p209.dinero.BuildConfig
 import com.p209.dinero.R
 import com.p209.dinero.core.data.util.NetworkMonitor
 import com.p209.dinero.core.designsystem.component.DineroBackground
@@ -90,7 +91,8 @@ fun DineroApp(
 
 			if (appState.doShowSettingsDialog) {
 				SettingsDialog(
-					onDismiss = { appState.setShowSettingsDialog(false) }
+					onDismiss = { appState.setShowSettingsDialog(false) },
+					versionName = BuildConfig.VERSION_NAME
 				)
 			}
 

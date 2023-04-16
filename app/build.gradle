@@ -14,7 +14,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "0.1.0" // X.Y.Z --- X = stor opdatering, Y = lille opdatering, Z = patch
+        versionName "0.1.2" // X.Y.Z --- X = stor opdatering, Y = lille opdatering, Z = patch
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -63,6 +63,7 @@ dependencies {
     implementation project(path: ':feature:budget')
     implementation project(path: ':feature:pantry')
     implementation project(path: ':feature:settings')
+    implementation project(path: ':sync:work')
 
     // ==============================================================
     // Android
@@ -83,7 +84,6 @@ dependencies {
 
     // Dagger - Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation project(path: ':sync:work')
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     kapt 'androidx.hilt:hilt-compiler:1.0.0'
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
