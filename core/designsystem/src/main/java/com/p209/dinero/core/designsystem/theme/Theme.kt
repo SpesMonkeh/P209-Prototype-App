@@ -245,9 +245,9 @@ fun DineroTheme(
 	)
 	val backgroundTheme = when {
 		androidTheme
-			-> if (darkTheme) DarkAndroidBackgroundTheme else LightAndroidBackgroundTheme
+			-> /* if (darkTheme) */ DarkAndroidBackgroundTheme /* else LightAndroidBackgroundTheme */
 		else
-			-> defaultBackgroundTheme
+			-> DarkAndroidBackgroundTheme/* defaultBackgroundTheme */
 	}
 	val tintTheme = when {
 		androidTheme

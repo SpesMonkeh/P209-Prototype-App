@@ -11,7 +11,7 @@ class OfflineFirstUserDataRepository @Inject constructor(
 
 	override val userData: Flow<UserData> = dineroPreferencesDataSource.userData
 
-	override suspend fun setUserName(userName: String) {
+	override suspend fun setUsername(userName: String) {
 		dineroPreferencesDataSource.setUserName(userName)
 	}
 

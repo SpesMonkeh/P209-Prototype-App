@@ -2,7 +2,6 @@ package com.p209.dinero.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.p209.dinero.core.data.repository.UserDataRepository
-import com.p209.dinero.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,16 +18,15 @@ class HomeScreenViewModel @Inject constructor(
 ) : ViewModel() {
 	private val timeOut: Long = 5_000
 	private val showOnboarding: Flow<Boolean> = userDataRepo.userData.map { !it.hideOnboarding }
-	val userName: String = getUserData()
 
 	fun getUserData(): String { // TODO MEGET usikker på, om dette er den rigtige måde at gøre det på. UNDERSØG :/
-		var name = ""
+		var name: String? = "[New User]"
 		viewModelScope.launch {
 			userDataRepo.userData.map {
-				name = it.userName.toString()
+				name = it.username
 			}
 		}
-		return name
+		return name ?: "[NEW USER]"
 	}
 
 	val onboardingUiState: StateFlow<OnboardingUiState> =
@@ -51,13 +49,15 @@ class HomeScreenViewModel @Inject constructor(
 		}
 	}
 
-	fun updateUserName(updatedName: String) {
+	fun setUsername(updatedName: String) {
 		viewModelScope.launch {
-			userDataRepo.setUserName(updatedName)
+			userDataRepo.setUsername(updatedName)
 		}
 	}
+
+	fun VerifyNewUsername(newUsername: String): Boolean = newUsername.isNotBlank() && newUsername.isNotEmpty()
 }
 
 private fun UserDataRepository.getUserNameAsFlow(): Flow<String> = userData.map { userData ->
-	userData.userName ?: "[UNNAMED USER]" // TODO Midlertidig løsning, og strengen skal måske flyttes til relevant XML-resource fil.
+	userData.username ?: "[UNNAMED USER]" // TODO Midlertidig løsning, og strengen skal måske flyttes til relevant XML-resource fil.
 }

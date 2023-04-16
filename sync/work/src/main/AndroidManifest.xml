@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application>
+        <provider
+            android:authorities="${applicationId}.androidx-startup"
+            android:name="androidx.startup.InitializationProvider"
+            android:exported="false"
+            tools:node="merge">
+            <!-- TODO: FRA NOW IN ANDROID: b/2173216 Disable auto sync startup till it works well with instrumented tests -->
+            <meta-data
+                android:name="com.p209.dinero.sync.work.initializers"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+            <!-- TODO:
+            <service
+                android:name=".services.SyncNotificationsService"
+                android:exported="false"
+                <intent-filter>
+                    <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                </intent-filter>
+            </service>
+            -->
+    </application>
+
+</manifest>

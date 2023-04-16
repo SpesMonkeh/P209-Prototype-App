@@ -3,18 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".DineroApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DineroApp"
+        android:theme="@style/PlatformAdjusted.Theme.Dinero"
         tools:targetApi="31">
         <activity
             android:name="com.p209.dinero.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.DineroApp">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -12,7 +12,7 @@ class DineroPreferencesDataSource @Inject constructor(
 	val userData = userPreferences.data
 		.map {
 			UserData(
-				userName = it.userName,
+				username = it.userName,
 				darkThemeConfig = it.darkThemeConfig,
 				useDynamicColor = it.useDynamicColor,
 				hideOnboarding = it.hideOnboarding,

@@ -2,6 +2,8 @@ package com.p209.dinero
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.p209.dinero.MainActivityUiState.Loading
+import com.p209.dinero.MainActivityUiState.Success
 import com.p209.dinero.core.data.repository.UserDataRepository
 import com.p209.dinero.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,10 +19,10 @@ class MainActivityViewModel @Inject constructor(
 ) : ViewModel() {
 	val timeOut: Long = 5_000
 	val uiState: StateFlow<MainActivityUiState> = userDataRepo.userData.map {
-		MainActivityUiState.Success(it)
+		Success(it)
 	}.stateIn(
 		scope = viewModelScope,
-		initialValue = MainActivityUiState.Loading,
+		initialValue = Loading,
 		started = SharingStarted.WhileSubscribed(stopTimeoutMillis = timeOut)
 	)
 }

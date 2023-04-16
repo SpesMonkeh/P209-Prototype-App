@@ -9,6 +9,12 @@ import com.p209.dinero.core.designsystem.R
  */
 object DineroIcons {
 	val TEST_chefs_hat = R.drawable.chefs_hat_stroke_24dp
+
+}
+
+object DineroIconOFV {
+	@DrawableRes val house_stroke12: Int = R.drawable.house_stroke12_ofv
+	@DrawableRes val cog_stroke12: Int = R.drawable.cog_stroke12_ofv
 }
 
 /**

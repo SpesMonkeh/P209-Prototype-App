@@ -24,7 +24,7 @@ interface UserDataRepository {
 	 *
 	 * `
 	 */
-	suspend fun setUserName(userName: String)
+	suspend fun setUsername(userName: String)
 
 	/**
 	 * Vælg, om app'ens tema skal benytte sig af Dynamic Color.

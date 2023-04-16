@@ -46,10 +46,11 @@ import com.p209.dinero.core.designsystem.component.DineroNavigationBarItem
 import com.p209.dinero.core.designsystem.component.DineroNavigationRail
 import com.p209.dinero.core.designsystem.component.DineroNavigationRailItem
 import com.p209.dinero.core.designsystem.component.DineroTopAppBar
-import com.p209.dinero.core.designsystem.icon.DineroIcons
+import com.p209.dinero.core.designsystem.icon.DineroIconOFV
 import com.p209.dinero.core.designsystem.icon.Icon
 import com.p209.dinero.core.designsystem.theme.GradientColors
 import com.p209.dinero.core.designsystem.theme.LocalGradientColors
+import com.p209.dinero.feature.settings.SettingsDialog
 import com.p209.dinero.navigation.DineroNavHost
 import com.p209.dinero.navigation.TopLevelDestination
 
@@ -76,8 +77,7 @@ fun DineroApp(
 			val snackbarHostState = remember { SnackbarHostState() }
 			val isOffline by appState.isOffline.collectAsStateWithLifecycle()
 
-			// Now in Android kommentar:
-			// If user is not connected to the internet; show a snack bar to inform them.
+			/* If user is not connected to the internet; show a snack bar to inform them. */
 			val notConnectedMessage = stringResource(R.string.user_is_offline)
 			LaunchedEffect(isOffline) {
 				if (isOffline) {
@@ -88,12 +88,11 @@ fun DineroApp(
 				}
 			}
 
-			/* TODO
 			if (appState.doShowSettingsDialog) {
 				SettingsDialog(
-					OnDismissListener = { appState.setShowSettingsDialog(false) }
+					onDismiss = { appState.setShowSettingsDialog(false) }
 				)
-			} */
+			}
 
 			Scaffold(
 				modifier = Modifier.semantics {
@@ -143,7 +142,7 @@ fun DineroApp(
 						if (destination != null) {
 							DineroTopAppBar(
 								titleResource = destination.titleTextId,
-								actionIcon = DineroIcons.TEST_chefs_hat, // TODO Udskift TEST_chefs_hat
+								actionIcon = DineroIconOFV.cog_stroke12,
 								actionIconContentDescription = null, // TODO Giv beskrivelse
 								colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
 									containerColor = Color.Transparent

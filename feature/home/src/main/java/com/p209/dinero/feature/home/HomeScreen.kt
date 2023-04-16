@@ -39,8 +39,7 @@ internal fun HomeScreenRoute(
 	val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
 
 	HomeScreen(
-		onUpdateUserName = viewModel::updateUserName,
-		onSubmitClick = viewModel::dismissOnboarding,
+		homeScreenViewModel = viewModel,
 		onboardingUiState = onboardingUiState,
 		modifier = modifier
 	)
@@ -48,8 +47,7 @@ internal fun HomeScreenRoute(
 
 @Composable
 fun HomeScreen(
-	onUpdateUserName: (String) -> Unit,
-	onSubmitClick: () -> Unit,
+	homeScreenViewModel: HomeScreenViewModel,
 	onboardingUiState: OnboardingUiState,
 	modifier: Modifier = Modifier
 ) {
@@ -66,17 +64,18 @@ fun HomeScreen(
 	) {
 		onboarding(
 			onboardingUiState = onboardingUiState,
-			onUpdateUserName = onUpdateUserName,
-			onSubmitClick = onSubmitClick,
+			onVerifyNewUsername = { homeScreenViewModel.VerifyNewUsername(it) },
+			onUpdateUserName = homeScreenViewModel::setUsername,
+			onSubmitClick = homeScreenViewModel::dismissOnboarding,
 			modifier = modifier
 		)
 
 	}
 }
 
-
 private fun LazyGridScope.onboarding(
 	onboardingUiState: OnboardingUiState,
+	onVerifyNewUsername: (String) -> Boolean,
 	onUpdateUserName: (String) -> Unit,
 	onSubmitClick: () -> Unit,
 	modifier: Modifier = Modifier
@@ -90,13 +89,8 @@ private fun LazyGridScope.onboarding(
 		item(span = { GridItemSpan(maxLineSpan) }) {
 
 			var tempUserName: String by remember { mutableStateOf("") }
-
+			var validNewUsername: Boolean by remember { mutableStateOf(false) }
 			val focusManager = LocalFocusManager.current
-			val hasValidUserName: Boolean by remember {
-				mutableStateOf(
-					tempUserName.isNotBlank() && tempUserName.isNotEmpty()
-				)
-			}
 
 			Column(
 				verticalArrangement = Arrangement.spacedBy(24.dp),
@@ -110,17 +104,21 @@ private fun LazyGridScope.onboarding(
 					value = tempUserName,
 					singleLine = true,
 					modifier = Modifier.fillMaxWidth(),
-					onValueChange = { tempUserName = it },
+					onValueChange = { enteredUsername ->
+						validNewUsername = onVerifyNewUsername(enteredUsername)
+						if (!validNewUsername) return@OutlinedTextField
+						tempUserName = enteredUsername
+					},
 					label = {
-						if (hasValidUserName) Text("Press Done to continue")
+						if (validNewUsername) Text("Press Done to continue")
 						else Text("Username is not valid")
 					},
-					isError = !hasValidUserName,
+					isError = !validNewUsername,
 					keyboardOptions = KeyboardOptions.Default.copy(
 						imeAction = ImeAction.Done
 					),
 					keyboardActions = KeyboardActions(onDone = {
-						if (hasValidUserName)
+						if (validNewUsername)
 							onUpdateUserName(tempUserName)
 						focusManager.clearFocus()
 					}),
@@ -128,10 +126,10 @@ private fun LazyGridScope.onboarding(
 			}
 			Button(
 				onClick = onSubmitClick,
-				enabled = onboardingUiState.canBeDismissed,
+				enabled = validNewUsername,
 				modifier = modifier,
 				content = {
-					Text("Submit")
+					Text("Done")
 				}
 			)
 		}

@@ -5,9 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
@@ -15,7 +12,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -89,10 +85,7 @@ class MainActivity : ComponentActivity() {
 			/*	Now in Android kommentar:
 			*	Update the dark content of the system bars to match the theme
 			*/
-			DisposableEffect(
-				key1 = systemUiController,
-				key2 = applyDarkTheme
-			) {
+			DisposableEffect(systemUiController, applyDarkTheme) {
 				systemUiController.systemBarsDarkContentEnabled = !applyDarkTheme
 				onDispose { }
 			}
@@ -102,17 +95,20 @@ class MainActivity : ComponentActivity() {
 				androidTheme = useAndroidTheme(uiState),
 				disableDynamicTheming = disableDynamicTheming(uiState)
 			) {
-				Surface(
-					modifier = Modifier.fillMaxSize(),
-					color = MaterialTheme.colorScheme.background
-				) {
-					DineroApp(
-						networkMonitor = networkMonitor,
-						windowSizeClass = calculateWindowSizeClass(this)
-					)
-				}
+				DineroApp(
+					networkMonitor = networkMonitor,
+					windowSizeClass = calculateWindowSizeClass(this)
+				)
 			}
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+	}
+
+	override fun onPause() {
+		super.onPause()
 	}
 }
 
