@@ -19,16 +19,6 @@ class HomeScreenViewModel @Inject constructor(
 	private val timeOut: Long = 5_000
 	private val showOnboarding: Flow<Boolean> = userDataRepo.userData.map { !it.hideOnboarding }
 
-	fun getUserData(): String { // TODO MEGET usikker på, om dette er den rigtige måde at gøre det på. UNDERSØG :/
-		var name: String? = "[New User]"
-		viewModelScope.launch {
-			userDataRepo.userData.map {
-				name = it.username
-			}
-		}
-		return name ?: "[NEW USER]"
-	}
-
 	val onboardingUiState: StateFlow<OnboardingUiState> =
 		combine(showOnboarding, userDataRepo.getUserNameAsFlow()) {
 			showOnboarding, userName ->
@@ -55,7 +45,7 @@ class HomeScreenViewModel @Inject constructor(
 		}
 	}
 
-	fun VerifyNewUsername(newUsername: String): Boolean = newUsername.isNotBlank() && newUsername.isNotEmpty()
+	fun VerifyUsername(username: String): Boolean = username.isNotBlank() && username.isNotEmpty()
 }
 
 private fun UserDataRepository.getUserNameAsFlow(): Flow<String> = userData.map { userData ->

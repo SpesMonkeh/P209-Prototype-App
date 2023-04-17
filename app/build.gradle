@@ -14,7 +14,8 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 1
-        versionName "0.1.2" // X.Y.Z --- X = stor opdatering, Y = lille opdatering, Z = patch
+        versionName "homeScreenIteration1" // X.Y.Z --- X = stor opdatering, Y = lille opdatering, Z = patch
+                                           // eller navnet på Git-branchen, hvis det ikke er Main el. Testing_Branch
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -43,8 +43,18 @@ fun rememberDineroAppState(
 	// Kode fra Now in Android på linjen herunder
 	// NavigationTrackingSideEffects(navController)
 
-	return remember(windowSizeClass, coroutineScope, networkMonitor, navController) {
-		DineroAppState(windowSizeClass, coroutineScope,	networkMonitor,	navController)
+	return remember(
+		windowSizeClass,
+		coroutineScope,
+		networkMonitor,
+		navController
+	) {
+		DineroAppState(
+			windowSizeClass,
+			coroutineScope,
+			networkMonitor,
+			navController
+		)
 	}
 }
 

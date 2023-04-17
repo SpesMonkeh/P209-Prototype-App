@@ -7,6 +7,7 @@
     <string name="no">No</string>
     <string name="ok">OK</string>
     <string name="loading">Loading…</string>
+    <string name="version_name_placeholder">x.y.z</string>
 
     <!-- USER-RELATED SETTINGS -->
     <string name="username">Username</string>

@@ -14,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -34,8 +35,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-	@Inject
-	lateinit var networkMonitor: NetworkMonitor
+	@Inject	lateinit var networkMonitor: NetworkMonitor
 
 	val viewModel: MainActivityViewModel by viewModels()
 
@@ -46,35 +46,22 @@ class MainActivity : ComponentActivity() {
 
 		var uiState: MainActivityUiState by mutableStateOf(Loading)
 
-		/* Kommentar fra Now in Android:
-		 * Update the UiState
-		 */
-		lifecycleScope.launch {
-			lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-				viewModel.uiState
-					.onEach {
-						uiState = it
-					}
-					.collect()
-			}
-		}
+		updateUiState(
+			lifecycleScope = lifecycleScope,
+			lifecycle = lifecycle,
+			viewModel = viewModel,
+			onSetUiState = { uiState = it }
+		)
 
-		/* Now in Android kommentar:
-		 * Keep the splash screen on-screen until the UI state is loaded. This condition is
-		 * evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
-		 * the UI.
-		 */
-
+		/* Keep the splash screen on-screen until the UI state is loaded. This condition is evaluated each time
+		 * the app needs to be redrawn so it should be fast to avoid blocking the UI. */
 		// splashScreen.setKeepOnScreenCondition {
 		// 		when (uiState) {
 		//			Loading -> true
 		//			is Success -> false
 		//
 
-		/*  Now in Android kommentar:
-		 *  Turn off the decor fitting system windows, which allows us to handle insets,
-		 *  including IME animations
-		 */
+		/*  Turn off the decor fitting system windows, which allows us to handle insets, including IME animations */
 		WindowCompat.setDecorFitsSystemWindows(window, false)
 
 		setContent {
@@ -82,9 +69,7 @@ class MainActivity : ComponentActivity() {
 			val applyDarkTheme: Boolean = useDarkTheme(uiState)
 
 
-			/*	Now in Android kommentar:
-			*	Update the dark content of the system bars to match the theme
-			*/
+			/* Update the dark content of the system bars to match the theme */
 			DisposableEffect(systemUiController, applyDarkTheme) {
 				systemUiController.systemBarsDarkContentEnabled = !applyDarkTheme
 				onDispose { }
@@ -109,6 +94,23 @@ class MainActivity : ComponentActivity() {
 
 	override fun onPause() {
 		super.onPause()
+	}
+}
+
+private fun updateUiState(
+	lifecycleScope: LifecycleCoroutineScope,
+	lifecycle: Lifecycle,
+	viewModel: MainActivityViewModel,
+	onSetUiState: (MainActivityUiState) -> Unit,
+) {
+	lifecycleScope.launch {
+		lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+			viewModel.uiState
+				.onEach {
+					onSetUiState(it)
+				}
+				.collect()
+		}
 	}
 }
 

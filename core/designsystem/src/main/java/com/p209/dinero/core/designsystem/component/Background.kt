@@ -26,14 +26,12 @@ import kotlin.math.tan
 
 /**
  * **Now in Android dokumentation:**
- * ```
+ *
  * The main background for the app.
  * Uses [LocalBackgroundTheme] to set the color and tonal elevation of a [Surface].
  *
  * @param modifier Modifier to be applied to the background.
  * @param content The background content.
- *
- * `
  */
 @Composable
 fun DineroBackground(
@@ -55,14 +53,13 @@ fun DineroBackground(
 }
 
 /** **Now in Android dokumentation:**
- * ```
+ *
  * A gradient background for select screens. Uses [LocalBackgroundTheme] to set the gradient colors
  * of a [Box] within a [Surface].
  *
  * @param modifier Modifier to be applied to the background.
  * @param gradientColors The gradient colors to be rendered.
  * @param content The background content.
- * `
  */
 @Composable
 fun DineroGradientBackground(

@@ -68,7 +68,7 @@ fun SettingsDialog(
 	onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
 	onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
 	onChangeUsername: (username: String) -> Unit,
-	versionName: String = "x.y.z",
+	versionName: String = stringResource(string.version_name_placeholder),
 	supportDynamicColor: Boolean = supportsDynamicTheming(),
 ) {
 	val configuration = LocalConfiguration.current
