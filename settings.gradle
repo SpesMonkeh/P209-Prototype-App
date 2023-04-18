@@ -30,3 +30,4 @@ include (":core:common")
 
 include (":sync:work")
 include ':feature:settings'
+include ':feature:onboarding'

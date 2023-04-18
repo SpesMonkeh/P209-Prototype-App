@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- ENGLISH CONTENT DESCRIPTIONS -->
+
+<resources>
+    <string name="desc_DK_flag">Danish</string>
+    <string name="desc_EN_flag">English</string>
+    <string name="budget">Budget</string>
+    <string name="pantry">Pantry</string>
+    <string name="profile">Profile</string>
+    <string name="recipes">Recipes</string>
+    <string name="settings">Settings</string>
+    <string name="shop">Shop</string>
+    <string name="home">Home</string>
+    <string name="textfieldLabel_invalid_username">Username is not valid</string>
+    <string name="textfieldLabel_valid_username">Press Done to continue</string>
+    <string name="info_enter_username">Please enter a username</string>
+    <string name="submitButton_done">Done</string>
+    <string name="info_select_language">Please select your language</string>
+</resources>

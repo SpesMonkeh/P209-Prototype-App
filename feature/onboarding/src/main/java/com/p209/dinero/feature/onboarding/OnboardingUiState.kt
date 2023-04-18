@@ -1,4 +1,4 @@
-package com.p209.dinero.feature.home
+package com.p209.dinero.feature.onboarding
 
 /**
  * *Sealed interface*
