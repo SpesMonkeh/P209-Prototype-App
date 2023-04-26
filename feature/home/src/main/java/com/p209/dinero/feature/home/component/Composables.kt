@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 import com.p209.dinero.core.designsystem.theme.DineroTheme
 
 @Composable
-fun HomeScreenButton( // TODO Flyt til mere relevant script
+fun HomeScreenButton(
 	label: String,
 	modifier: Modifier = Modifier,
 	onClick: () -> Unit,

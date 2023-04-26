@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile">Profil</string>
+    <string name="settings">Indstillinger</string>
+    <string name="pantry">Spisekammer</string>
+    <string name="recipes">Opskrifter</string>
+    <string name="budget">Budget</string>
+    <string name="shopping">Indkøb</string>
+    <string name="greet_morning">Godmorgen, %s.</string>
+    <string name="title_model">Model</string>
+    <string name="no_internet">Du har ingen internetforbindelse</string>
+</resources>

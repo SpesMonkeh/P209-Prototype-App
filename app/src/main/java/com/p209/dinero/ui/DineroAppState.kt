@@ -21,12 +21,14 @@ import com.p209.dinero.feature.budget.navigation.BUDGET_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.budget.navigation.navigateToBudget
 import com.p209.dinero.feature.home.navigation.HOME_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.home.navigation.navigateToHome
+import com.p209.dinero.feature.onboarding.navigation.ONBOARDING_SCREEN_NAVIGATION_ROUTE
+import com.p209.dinero.feature.onboarding.navigation.navigateToOnboarding
 import com.p209.dinero.feature.pantry.navigation.PANTRY_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.pantry.navigation.navigateToPantry
-import com.p209.dinero.navigation.Screen
 import com.p209.dinero.navigation.TopLevelDestination
 import com.p209.dinero.navigation.TopLevelDestination.BUDGET_TOP
 import com.p209.dinero.navigation.TopLevelDestination.HOME_TOP
+import com.p209.dinero.navigation.TopLevelDestination.ONBOARDING_TOP
 import com.p209.dinero.navigation.TopLevelDestination.PANTRY_TOP
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -40,7 +42,7 @@ fun rememberDineroAppState(
 	coroutineScope: CoroutineScope = rememberCoroutineScope(),
 	navController: NavHostController = rememberNavController(),
 ): DineroAppState {
-	// Kode fra Now in Android på linjen herunder
+
 	// NavigationTrackingSideEffects(navController)
 
 	return remember(
@@ -57,10 +59,6 @@ fun rememberDineroAppState(
 		)
 	}
 }
-
-data class DineroUiState( // TODO Tjek, om denne class er nødvendig
-	val currentAppScreen: Screen = Screen.Home
-)
 
 @Stable
 class DineroAppState(
@@ -80,6 +78,7 @@ class DineroAppState(
 			HOME_SCREEN_NAVIGATION_ROUTE -> HOME_TOP
 			PANTRY_SCREEN_NAVIGATION_ROUTE -> PANTRY_TOP
 			BUDGET_SCREEN_NAVIGATION_ROUTE -> BUDGET_TOP
+			ONBOARDING_SCREEN_NAVIGATION_ROUTE -> ONBOARDING_TOP
 			else -> null
 		}
 
@@ -101,8 +100,6 @@ class DineroAppState(
 	 *
 	 * Map of top level destinations to be used in the TopBar, BottomBar and NavRail. The key is the
 	 * route.
-	 *
-	 * `
 	 */
 	val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
 
@@ -116,17 +113,13 @@ class DineroAppState(
 	 * navigate to and from it.
 	 *
 	 * @param topLevelDestination: The destination the app needs to navigate to.
-	 *
-	 * `
 	 */
 	fun navigateToTopLevelDestination(topLevelDestination: TopLevelDestination) {
 		trace("Navigation: ${topLevelDestination.name}") {
 			val topLevelNavOptions = navOptions {
 				/* Pop up to the start destination of the graph to avoid building up a large stack of destinations
 				 * on the back stack as users select items */
-				popUpTo(navController.graph.findStartDestination().id) {
-					saveState = true
-				}
+				popUpTo(navController.graph.findStartDestination().id) { saveState = true }
 
 				/* Avoid multiple copies of the same destination when reselecting the same item */
 				launchSingleTop = true
@@ -138,6 +131,7 @@ class DineroAppState(
 				HOME_TOP -> navController.navigateToHome(topLevelNavOptions)
 				BUDGET_TOP -> navController.navigateToBudget(topLevelNavOptions)
 				PANTRY_TOP -> navController.navigateToPantry(topLevelNavOptions)
+				ONBOARDING_TOP -> navController.navigateToOnboarding(topLevelNavOptions)
 			}
 		}
 	}
@@ -168,3 +162,7 @@ class DineroAppState(
 //		}
 //	}
 //}
+
+// data class DineroUiState( // TODO Tjek, om denne class er nødvendig
+// 	val currentAppScreen: Screen = Screen.Home
+// )

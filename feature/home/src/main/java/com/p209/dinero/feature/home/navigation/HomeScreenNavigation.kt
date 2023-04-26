@@ -8,12 +8,10 @@ import com.p209.dinero.feature.home.HomeScreenRoute
 
 const val HOME_SCREEN_NAVIGATION_ROUTE = "home_screen_route"
 
-fun NavController.navigateToHome(navOptions: NavOptions? = null) {
+fun NavController.navigateToHome(navOptions: NavOptions? = null) =
 	this.navigate(HOME_SCREEN_NAVIGATION_ROUTE, navOptions)
-}
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen() =
 	composable(route = HOME_SCREEN_NAVIGATION_ROUTE) {
 		HomeScreenRoute()
 	}
-}

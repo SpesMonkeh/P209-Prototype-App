@@ -79,7 +79,7 @@ fun DineroApp(
 			val isOffline by appState.isOffline.collectAsStateWithLifecycle()
 
 			/* If user is not connected to the internet; show a snack bar to inform them. */
-			val notConnectedMessage = stringResource(R.string.user_is_offline)
+			val notConnectedMessage = stringResource(R.string.no_internet)
 			LaunchedEffect(isOffline) {
 				if (isOffline) {
 					snackbarHostState.showSnackbar(
@@ -180,9 +180,8 @@ private fun DineroNavRail(
 				selected = selected,
 				onClick = { onNavigateToDestination(destination) },
 				icon = {
-					val icon = if (selected) destination.selectedIcon else destination.unselectedIcon
 
-					when (icon) {
+					when (val icon = if (selected) destination.selectedIcon else destination.unselectedIcon) {
 						is Icon.ImageVectorIcon -> Icon(
 							imageVector = icon.imageVector,
 							contentDescription = null
@@ -192,9 +191,14 @@ private fun DineroNavRail(
 							painter = painterResource(icon.id),
 							contentDescription = null
 						)
+
+						else -> return@DineroNavigationRailItem
 					}
 				},
-				label = { Text(stringResource(destination.iconTextID)) }
+				label = {
+					if (destination.iconTextID == null) return@DineroNavigationRailItem
+					Text(stringResource(destination.iconTextID))
+				}
 			)
 		}
 	}
@@ -217,9 +221,7 @@ private fun DineroBottomBar(
 				selected = selected,
 				onClick = { onNavigateToDestination(destination) },
 				icon = {
-					val icon = if (selected) destination.selectedIcon else destination.unselectedIcon
-
-					when (icon) {
+					when (val icon = if (selected) destination.selectedIcon else destination.unselectedIcon) {
 						is Icon.ImageVectorIcon -> Icon(
 							imageVector = icon.imageVector,
 							contentDescription = null
@@ -229,9 +231,14 @@ private fun DineroBottomBar(
 							painter = painterResource(id = icon.id),
 							contentDescription = null
 						)
+
+						else -> return@DineroNavigationBarItem
 					}
 				},
-				label = { Text(stringResource(destination.iconTextID)) }
+				label = {
+					if (destination.iconTextID == null) return@DineroNavigationBarItem
+					Text(stringResource(destination.iconTextID))
+				}
 			)
 		}
 	}

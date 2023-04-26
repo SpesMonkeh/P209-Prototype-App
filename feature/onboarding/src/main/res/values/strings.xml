@@ -12,4 +12,5 @@
     <string name="info_enter_username">Please enter a username</string>
     <string name="submitButton_done">Done</string>
     <string name="info_select_language">Please select your language</string>
+    <string name="onboarding">Onboarding</string>
 </resources>

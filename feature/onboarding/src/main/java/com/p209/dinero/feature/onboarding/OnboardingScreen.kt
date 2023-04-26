@@ -1,7 +1,6 @@
 package com.p209.dinero.feature.onboarding
 
 import androidx.activity.compose.ReportDrawnWhen
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -32,15 +31,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.p209.dinero.core.designsystem.theme.DineroTheme
-import com.p209.dinero.feature.onboarding.component.ImageVectorButton
-
-private val onboardingItemFontSize: TextUnit = 26.sp
+import com.p209.dinero.feature.onboarding.component.OnboardingStepText
+import com.p209.dinero.feature.onboarding.component.selectLanguageOnboardingStep
 
 @Composable
 internal fun OnboardingScreenRoute(
@@ -78,6 +74,9 @@ fun OnboardingScreen(
 		verticalArrangement = Arrangement.Center,
 		modifier =  modifier.fillMaxSize(),
 	) {
+		selectLanguageOnboardingStep(
+			modifier = modifier,
+		)
 		onboarding(
 			onboardingUiState = onboardingUiState,
 			onVerifyUsername = onVerifyUsername,
@@ -110,31 +109,9 @@ private fun LazyGridScope.onboarding(
 			Column(
 				verticalArrangement = Arrangement.spacedBy(20.dp),
 			) {
-				OnboardingItemText(
-					textRes = R.string.info_select_language,
-					modifier = modifier.align(Alignment.CenterHorizontally)
-				)
-				Row(
-					horizontalArrangement = Arrangement.SpaceEvenly,
-					modifier = modifier
-						.fillMaxWidth()
-				) {
-					ImageVectorButton(
-						imageVector = R.drawable.flag_dk,
-						contentDescription = R.string.desc_DK_flag,
-						buttonAction = { /*TODO*/ }
-					)
-
-					ImageVectorButton(
-						imageVector = R.drawable.flag_uk,
-						contentDescription = R.string.desc_EN_flag,
-						buttonAction = { /*TODO*/ },
-					)
-				}
-
 				SectionDivider()
 
-				OnboardingItemText(
+				OnboardingStepText(
 					textRes = R.string.info_enter_username,
 					modifier = modifier.align(Alignment.CenterHorizontally)
 				)
@@ -176,21 +153,6 @@ private fun LazyGridScope.onboarding(
 			}
 		}
 	}
-}
-
-@Composable
-private fun OnboardingItemText(
-	@StringRes textRes: Int,
-	modifier: Modifier = Modifier,
-	textColor: Color = Color.White, // TODO Midlertidig farve
-	fontSize: TextUnit = onboardingItemFontSize,
-) {
-	Text(
-		text = stringResource(textRes),
-		modifier = modifier,
-		fontSize = fontSize,
-		color = textColor
-	)
 }
 
 @Composable

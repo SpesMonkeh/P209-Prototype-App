@@ -50,6 +50,7 @@ class OnboardingScreenViewModel @Inject constructor(
 	fun verifyUsername(username: String?): Boolean = !username.isNullOrEmpty()
 }
 
-private fun UserDataRepository.getUserNameAsFlow(): Flow<String> = userData.map { userData ->
-	userData.username ?: "[UNNAMED USER]" // TODO Midlertidig løsning, og strengen skal måske flyttes til relevant XML-resource fil.
-}
+private fun UserDataRepository.getUserNameAsFlow(): Flow<String> =
+	userData.map { userData ->
+		userData.username ?: "[UNNAMED USER]" // TODO Midlertidig løsning, og strengen skal måske flyttes til relevant XML-resource fil.
+	}

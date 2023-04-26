@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
@@ -29,6 +31,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
@@ -77,10 +80,7 @@ fun SettingsDialog(
 	 *
 	 * `usePlatformDefaultWidth = false` is used as a temporary fix to allow height recalculation during recomposition.
 	 * This, however, causes Dialog's to occupy full width in Compact mode. Therefore max width is configured below.
-	 * This should be removed when there's a fix to
-	 * https://issuetracker.google.com/issues/221643630
-	 *
-	 * `
+	 * This should be removed when there's a fix to https://issuetracker.google.com/issues/221643630
 	 */
 	AlertDialog(
 		properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -165,13 +165,10 @@ private fun SettingsPanel(
 	val userCanChangeDynamicColor = settings.brand == ThemeBrand.DEFAULT
 			&& supportDynamicColor
 
-	SettingsDialogSectionTitle(text = stringResource(string.username))
-	Column(Modifier.selectableGroup()) {
-		OutlinedTextField(
-			value = settings.username,
-			onValueChange = { onChangeUsername(it) }
-		)
-	}
+	ShowChangeUsernameSetting(
+		settings = settings,
+		onChangeUsername = onChangeUsername,
+	)
 
 	ShowThemeBrandSetting(
 		currentThemeBrand = settings.brand,
@@ -188,6 +185,33 @@ private fun SettingsPanel(
 		currentDarkThemeConfig = settings.darkThemeConfig,
 		onChangeDarkThemeConfig = onChangeDarkThemeConfig,
 	)
+}
+
+@Composable
+private fun ShowChangeUsernameSetting(
+	settings: UserEditableSettings,
+	onChangeUsername: (username: String) -> Unit,
+) {
+	var tempUsername = settings.username
+
+	SettingsDialogSectionTitle(text = stringResource(string.username))
+
+	Column(Modifier.selectableGroup()) {
+		OutlinedTextField(
+			value = tempUsername,
+			onValueChange = { onChangeUsername(it) },
+			singleLine = true,
+			keyboardOptions = KeyboardOptions.Default.copy(
+				imeAction = ImeAction.Done
+			),
+			keyboardActions = KeyboardActions(
+				onDone = {
+					if (tempUsername != settings.username)
+						onChangeUsername(tempUsername)
+				}
+			)
+		)
+	}
 }
 
 @Composable

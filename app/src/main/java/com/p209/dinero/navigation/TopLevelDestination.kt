@@ -7,30 +7,34 @@ import com.p209.dinero.core.designsystem.icon.Icon.DrawableResourceIcon
 import com.p209.dinero.R.string as stringR
 import com.p209.dinero.feature.budget.R as budgetR
 import com.p209.dinero.feature.home.R as homeR
+import com.p209.dinero.feature.onboarding.R as onboardingR
 import com.p209.dinero.feature.pantry.R as pantryR
 
 enum class TopLevelDestination(
-	val selectedIcon: Icon,
-	val unselectedIcon: Icon,
-	val iconTextID: Int,
-	val titleTextId: Int
+	val titleTextId: Int,
+	val iconTextID: Int? = null,
+	val selectedIcon: Icon? = null,
+	val unselectedIcon: Icon? = null,
 ) {
 	HOME_TOP(
-		selectedIcon = DrawableResourceIcon(DineroIconOFV.house_stroke12),
-		unselectedIcon = DrawableResourceIcon(DineroIconOFV.house_stroke12),
+		titleTextId = stringR.app_name, // TODO Ændr til brugernavn og måske tidsbaseret hilsen
 		iconTextID = homeR.string.home,
-		titleTextId = stringR.app_name // TODO Ændr til brugernavn og måske tidsbaseret hilsen
+		selectedIcon = DrawableResourceIcon(DineroIconOFV.house_stroke12),
+		unselectedIcon = DrawableResourceIcon(DineroIconOFV.house_stroke12)
 	),
 	PANTRY_TOP(
-		selectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
-		unselectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
+		titleTextId = pantryR.string.pantry,
 		iconTextID = pantryR.string.pantry,
-		titleTextId = pantryR.string.pantry
+		selectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
+		unselectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat)
 	),
 	BUDGET_TOP(
-		selectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
-		unselectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
+		titleTextId = budgetR.string.budget,
 		iconTextID = budgetR.string.budget,
-		titleTextId = budgetR.string.budget
+		selectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
+		unselectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat)
+	),
+	ONBOARDING_TOP(
+		titleTextId = onboardingR.string.onboarding,
 	)
 }

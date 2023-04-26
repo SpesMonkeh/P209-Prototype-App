@@ -15,8 +15,8 @@ android {
         targetSdk 33
         versionCode 1
 
-        // X.Y.Z --- X = stor opdatering, Y = lille opdatering, Z = patch
-            // eller navnet på Git-branchen, hvis det ikke er Main el. Testing_Branch
+        /* X.Y.Z --- X = stor opdatering, Y = lille opdatering, Z = patch         */
+        /* eller navnet på Git-branchen, hvis det ikke er Main el. Testing_Branch */
         versionName "homeScreenIteration1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -64,6 +64,7 @@ dependencies {
     implementation project(path: ':core:model')
     implementation project(path: ':feature:home')
     implementation project(path: ':feature:budget')
+    implementation project(path: ':feature:onboarding')
     implementation project(path: ':feature:pantry')
     implementation project(path: ':feature:settings')
     implementation project(path: ':sync:work')
