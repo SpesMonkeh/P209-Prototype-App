@@ -1,6 +1,6 @@
 package com.p209.dinero.core.data.repository
 
-import com.p209.dinero.core.datastore.DineroPreferencesDataSource
+import com.p209.dinero.core.datastore.UserPreferencesDataSource
 import com.p209.dinero.core.model.data.DarkThemeConfig
 import com.p209.dinero.core.model.data.ThemeBrand
 import com.p209.dinero.core.model.data.UserData
@@ -8,27 +8,27 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class OfflineFirstUserDataRepository @Inject constructor(
-	private val dineroPreferencesDataSource: DineroPreferencesDataSource
+	private val userPreferencesDataSource: UserPreferencesDataSource
 ) : UserDataRepository {
 
-	override val userData: Flow<UserData> = dineroPreferencesDataSource.userData
+	override val userData: Flow<UserData> = userPreferencesDataSource.userData
 	override suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
-		dineroPreferencesDataSource.setDarkThemeConfig(darkThemeConfig)
+		userPreferencesDataSource.setDarkThemeConfig(darkThemeConfig)
 	}
 
 	override suspend fun setUsername(userName: String) {
-		dineroPreferencesDataSource.setUserName(userName)
+		userPreferencesDataSource.setUserName(userName)
 	}
 
 	override suspend fun setHideOnboarding(hideOnboarding: Boolean) {
-		dineroPreferencesDataSource.setHideOnboarding(hideOnboarding)
+		userPreferencesDataSource.setHideOnboarding(hideOnboarding)
 	}
 
 	override suspend fun setThemeBrand(themeBrand: ThemeBrand) {
-		dineroPreferencesDataSource.setThemeBrand(themeBrand)
+		userPreferencesDataSource.setThemeBrand(themeBrand)
 	}
 
 	override suspend fun setUseDynamicColor(useDynamicColor: Boolean) {
-		dineroPreferencesDataSource.setUseDynamicColor(useDynamicColor)
+		userPreferencesDataSource.setUseDynamicColor(useDynamicColor)
 	}
 }

@@ -2,6 +2,7 @@ package com.p209.dinero.feature.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.p209.dinero.core.data.repository.AppDataRepository
 import com.p209.dinero.core.data.repository.UserDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingScreenViewModel @Inject constructor(
 	val userDataRepository: UserDataRepository,
+	val appDataRepository: AppDataRepository,
 ): ViewModel() {
 
 	private val timeOut: Long = 5_000

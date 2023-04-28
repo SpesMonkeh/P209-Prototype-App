@@ -10,7 +10,7 @@ import androidx.work.WorkerParameters
 import com.p209.dinero.core.common.network.di.DineroDispatchers.IO
 import com.p209.dinero.core.common.network.di.Dispatcher
 import com.p209.dinero.core.data.Synchronizer
-import com.p209.dinero.core.datastore.DineroPreferencesDataSource
+import com.p209.dinero.core.datastore.UserPreferencesDataSource
 import com.p209.dinero.sync.work.initializers.SyncConstraints
 import com.p209.dinero.sync.work.initializers.syncForegroundInfo
 import dagger.assisted.Assisted
@@ -21,14 +21,12 @@ import kotlinx.coroutines.withContext
 /** **Now in Android dokumentation:**
  *
  *  Syncs the data layer by delegating to the appropriate repository instances with sync functionality
- *
- *  `
  */
 @HiltWorker
 class SyncWorker @AssistedInject constructor(
 	@Assisted private val appContext: Context,
 	@Assisted workerParams: WorkerParameters,
-	private val dineroPreferences: DineroPreferencesDataSource,
+	private val dineroPreferences: UserPreferencesDataSource,
 	@Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : CoroutineWorker(appContext, workerParams), Synchronizer {
 
@@ -53,9 +51,7 @@ class SyncWorker @AssistedInject constructor(
 	//) = dineroPreferences.updateChangeListVersion(update)
 
 	companion object {
-		/**
-		 * Expedited one time work to sync data on app startup
-		 */
+		/** Expedited one time work to sync data on app startup */
 		fun startUpSyncWork() = OneTimeWorkRequestBuilder<DelegatingWorker>()
 			.setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
 			.setConstraints(SyncConstraints)

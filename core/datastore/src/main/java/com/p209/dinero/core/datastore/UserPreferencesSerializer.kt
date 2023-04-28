@@ -8,10 +8,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
-/** En [Serializer] af værdier fra [UserPreferences].
- *
- * `
- */
+/** A [Serializer] of values from [UserPreferences]. */
 @Suppress("BlockingMethodInNonBlockingContext")
 class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
 	override val defaultValue: UserPreferences

@@ -8,7 +8,7 @@ import com.p209.dinero.core.model.data.UserData
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class DineroPreferencesDataSource @Inject constructor(
+class UserPreferencesDataSource @Inject constructor(
 	private val userPreferences: DataStore<UserPreferences>
 ) {
 	val userData = userPreferences.data

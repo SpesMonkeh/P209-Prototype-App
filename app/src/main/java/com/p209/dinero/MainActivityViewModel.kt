@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.p209.dinero.MainActivityUiState.Loading
 import com.p209.dinero.MainActivityUiState.Success
+import com.p209.dinero.core.data.repository.AppDataRepository
 import com.p209.dinero.core.data.repository.UserDataRepository
 import com.p209.dinero.core.model.data.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,10 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-	userDataRepo: UserDataRepository
+	userDataRepository: UserDataRepository,
+	appDataRepository: AppDataRepository,
 ) : ViewModel() {
 	val timeOut: Long = 5_000
-	val uiState: StateFlow<MainActivityUiState> = userDataRepo.userData.map {
+	val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {
 		Success(it)
 	}.stateIn(
 		scope = viewModelScope,

@@ -48,13 +48,13 @@ import com.p209.dinero.feature.settings.R.string
 fun SettingsDialog(
 	onDismiss: () -> Unit,
 	versionName: String,
-	viewModel: SettingsViewModel = hiltViewModel(),
+	viewModel: UserPreferencesViewModel = hiltViewModel(),
 ) {
-	val settingsUiState by viewModel.settingsUiState.collectAsStateWithLifecycle()
+	val settingsUiState by viewModel.userPreferenceSettingsUiState.collectAsStateWithLifecycle()
 
 	SettingsDialog(
 		onDismiss = onDismiss,
-		settingsUiState = settingsUiState,
+		userPreferenceSettingsUiState = settingsUiState,
 		onChangeThemeBrand = viewModel::updateThemeBrand,
 		onChangeDynamicColorPreference = viewModel::updateDynamicColorPreference,
 		onChangeDarkThemeConfig = viewModel::updateDarkThemeConfig,
@@ -66,7 +66,7 @@ fun SettingsDialog(
 @Composable
 fun SettingsDialog(
 	onDismiss: () -> Unit,
-	settingsUiState: SettingsUiState,
+	userPreferenceSettingsUiState: UserPreferenceSettingsUiState,
 	onChangeThemeBrand: (themeBrand:ThemeBrand) -> Unit,
 	onChangeDynamicColorPreference: (useDynamicColor: Boolean) -> Unit,
 	onChangeDarkThemeConfig: (darkThemeConfig: DarkThemeConfig) -> Unit,
@@ -95,17 +95,17 @@ fun SettingsDialog(
 		text = {
 			Divider()
 			Column(Modifier.verticalScroll(rememberScrollState())) {
-				when (settingsUiState) {
-					SettingsUiState.Loading -> {
+				when (userPreferenceSettingsUiState) {
+					UserPreferenceSettingsUiState.Loading -> {
 						Text(
 							text = stringResource(string.loading),
 							modifier = Modifier.padding(vertical = 16.dp)
 						)
 					}
 
-					is SettingsUiState.Success -> {
+					is UserPreferenceSettingsUiState.Success -> {
 						SettingsPanel(
-							settings = settingsUiState.settings,
+							settings = userPreferenceSettingsUiState.userPreferences,
 							supportDynamicColor = supportDynamicColor,
 							onChangeUsername = onChangeUsername,
 							onChangeThemeBrand = onChangeThemeBrand,
@@ -155,7 +155,7 @@ fun AppVersionPanel(versionName: String) {
 
 @Composable
 private fun SettingsPanel(
-	settings: UserEditableSettings,
+	settings: EditableUserPreferences,
 	supportDynamicColor: Boolean,
 	onChangeUsername: (username: String) -> Unit,
 	onChangeThemeBrand: (themeBrand: ThemeBrand) -> Unit,
@@ -189,7 +189,7 @@ private fun SettingsPanel(
 
 @Composable
 private fun ShowChangeUsernameSetting(
-	settings: UserEditableSettings,
+	settings: EditableUserPreferences,
 	onChangeUsername: (username: String) -> Unit,
 ) {
 	var tempUsername = settings.username
@@ -377,8 +377,8 @@ private fun PreviewSettingsDialog() {
 	DineroTheme {
 		SettingsDialog(
 			onDismiss = {},
-			settingsUiState = SettingsUiState.Success(
-				UserEditableSettings(
+			userPreferenceSettingsUiState = UserPreferenceSettingsUiState.Success(
+				EditableUserPreferences(
 					brand =  ThemeBrand.DEFAULT,
 					darkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
 					useDynamicColor = false,
@@ -399,7 +399,7 @@ private fun PreviewSettingsDialogLoading() {
 	DineroTheme {
 		SettingsDialog(
 			onDismiss = {},
-			settingsUiState = SettingsUiState.Loading,
+			userPreferenceSettingsUiState = UserPreferenceSettingsUiState.Loading,
 			onChangeThemeBrand = {},
 			onChangeDynamicColorPreference = {},
 			onChangeDarkThemeConfig = {},

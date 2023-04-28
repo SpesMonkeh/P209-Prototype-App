@@ -14,18 +14,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+class UserPreferencesViewModel @Inject constructor(
 	private val userDataRepo: UserDataRepository
 ) : ViewModel() {
-	val settingsUiState: StateFlow<SettingsUiState> =
+	val userPreferenceSettingsUiState: StateFlow<UserPreferenceSettingsUiState> =
 		userDataRepo.userData
 			.map { userData ->
-				SettingsUiState.Success(
-					settings = UserEditableSettings(
+				UserPreferenceSettingsUiState.Success(
+					userPreferences = EditableUserPreferences(
 						brand = userData.themeBrand,
 						useDynamicColor = userData.useDynamicColor,
 						darkThemeConfig = userData.darkThemeConfig,
-						username = userData.username ?: "[NOT PROVIDED]"
+						username = userData.username ?: "[NOT PROVIDED]",
 					),
 				)
 			}
@@ -39,7 +39,7 @@ class SettingsViewModel @Inject constructor(
 				// scrollable column.
 				// TODO: Change to SharingStarted.WhileSubscribed(5_000) when b/221643630 is fixed
 				started = SharingStarted.Eagerly,
-				initialValue = SettingsUiState.Loading,
+				initialValue = UserPreferenceSettingsUiState.Loading,
 			)
 
 	fun updateUsername(username: String) {
@@ -67,20 +67,20 @@ class SettingsViewModel @Inject constructor(
 	}
 }
 
-/** *Data Class*
+/** *DATA CLASS*
  *
- *  Indeholder de indstillinger, som det er muligt for brugeren at justere på.
+ *  Contains those user preferences, which it is possible for the user to adjust.
  *
- *  `
+ *  See [EditableAppSettings] for settings related to the app rather than the user's preferences.
  */
-data class UserEditableSettings(
+data class EditableUserPreferences(
 	val brand: ThemeBrand,
 	val useDynamicColor: Boolean,
 	val darkThemeConfig: DarkThemeConfig,
 	val username: String,
 )
 
-sealed interface SettingsUiState {
-	object Loading: SettingsUiState
-	data class Success(val settings: UserEditableSettings): SettingsUiState
+sealed interface UserPreferenceSettingsUiState {
+	object Loading: UserPreferenceSettingsUiState
+	data class Success(val userPreferences: EditableUserPreferences): UserPreferenceSettingsUiState
 }

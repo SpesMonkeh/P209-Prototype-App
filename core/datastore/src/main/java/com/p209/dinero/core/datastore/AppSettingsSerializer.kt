@@ -6,13 +6,11 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
+import javax.inject.Inject
 
-/** En [Serializer] af værdier fra [AppSettings].
- *
- * `
- */
+/** A [Serializer] of values from [AppSettings]. */
 @Suppress("BlockingMethodInNonBlockingContext")
-object AppSettingsSerializer : Serializer<AppSettings> {
+class AppSettingsSerializer @Inject constructor() : Serializer<AppSettings> {
 	override val defaultValue: AppSettings
 		get() = AppSettings()
 

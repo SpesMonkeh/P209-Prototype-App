@@ -1,5 +1,7 @@
 package com.p209.dinero.core.data.di
 
+import com.p209.dinero.core.data.repository.AppDataRepository
+import com.p209.dinero.core.data.repository.OfflineFirstAppDataRepository
 import com.p209.dinero.core.data.repository.OfflineFirstUserDataRepository
 import com.p209.dinero.core.data.repository.UserDataRepository
 import com.p209.dinero.core.data.util.ConnectivityManagerNetworkMonitor
@@ -17,6 +19,11 @@ interface DataModule {
 	fun bindsUserDataRepository(
 		userDataRepository: OfflineFirstUserDataRepository
 	): UserDataRepository
+
+	@Binds
+	fun bindsAppDataRepository(
+		appDataRepository: OfflineFirstAppDataRepository,
+	): AppDataRepository
 
 	@Binds
 	fun bindsNetworkMonitor(
