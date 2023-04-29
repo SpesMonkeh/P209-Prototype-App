@@ -17,7 +17,7 @@ android {
 
         /* X.Y.Z --- X = stor opdatering, Y = lille opdatering, Z = patch         */
         /* eller navnet på Git-branchen, hvis det ikke er Main el. Testing_Branch */
-        versionName "homeScreenIteration1.0.2"
+        versionName "homeScreenIteration1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

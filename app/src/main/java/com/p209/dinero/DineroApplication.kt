@@ -6,8 +6,6 @@ import dagger.hilt.android.HiltAndroidApp
 
 /**
  * Programmets opstarts-funktion
- *
- * `
  */
 @HiltAndroidApp
 class DineroApplication: Application()/*, ImageLoaderFactory*/ {

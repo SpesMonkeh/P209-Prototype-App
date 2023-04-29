@@ -24,7 +24,7 @@ import com.p209.dinero.core.data.util.NetworkMonitor
 import com.p209.dinero.core.designsystem.theme.DineroTheme
 import com.p209.dinero.core.model.data.DarkThemeConfig
 import com.p209.dinero.core.model.data.ThemeBrand
-import com.p209.dinero.ui.DineroApp
+import com.p209.dinero.ui.DineroAppMainComposable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
 				androidTheme = useAndroidTheme(uiState),
 				disableDynamicTheming = disableDynamicTheming(uiState)
 			) {
-				DineroApp(
+				DineroAppMainComposable(
 					networkMonitor = networkMonitor,
 					windowSizeClass = calculateWindowSizeClass(this)
 				)
@@ -118,8 +118,6 @@ private fun updateUiState(
  * **Now in Android dokumentation:**
  *
  * Returns `true` if the Android theme should be used, as a function of the [uiState].
- *
- * `
  */
 @Composable
 private fun useAndroidTheme(
@@ -136,8 +134,6 @@ private fun useAndroidTheme(
  * **Now in Android dokumentation:**
  *
  * Returns `true` if the dynamic color is disabled, as a function of the [uiState].
- *
- * `
  */
 @Composable
 private fun disableDynamicTheming(
@@ -152,8 +148,6 @@ private fun disableDynamicTheming(
  *
  * Returns `true` if dark theme should be used, as a function of the [uiState] and the
  * current system context.
- *
- * `
  */
 @Composable
 private fun useDarkTheme(

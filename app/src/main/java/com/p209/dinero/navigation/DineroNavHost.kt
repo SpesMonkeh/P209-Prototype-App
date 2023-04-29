@@ -7,11 +7,12 @@ import androidx.navigation.compose.NavHost
 import com.p209.dinero.feature.budget.navigation.budgetScreen
 import com.p209.dinero.feature.home.navigation.HOME_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.home.navigation.homeScreen
+import com.p209.dinero.feature.onboarding.navigation.onboardingScreen
 import com.p209.dinero.feature.pantry.navigation.pantryScreen
 
 /**
- * **Dokumentation fra Now in Android:**
- * ```
+ * **Now in Android dokumentation**
+ *
  * Top-level navigation graph. Navigation is organized as explained at
  * https://d.android.com/jetpack/compose/nav-adaptive
  *
@@ -29,6 +30,7 @@ fun DineroNavHost(
 		startDestination = startDestination,
 		modifier = modifier
 	) {
+		onboardingScreen()
 		homeScreen()
 		budgetScreen()
 		pantryScreen()

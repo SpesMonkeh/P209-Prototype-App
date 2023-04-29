@@ -19,8 +19,6 @@ import androidx.compose.ui.unit.dp
  * **Now in Android dokumentation:**
  *
  * Light default theme color scheme
- *
- * `
  */
 val LightDefaultColorScheme = lightColorScheme(
 	primary = Purple40,
@@ -54,8 +52,6 @@ val LightDefaultColorScheme = lightColorScheme(
  * **Now in Android dokumentation:**
  *
  * Dark default theme color scheme
- *
- * `
  */
 val DarkDefaultColorScheme = darkColorScheme(
 	primary = Purple80,
@@ -89,8 +85,6 @@ val DarkDefaultColorScheme = darkColorScheme(
  * **Now in Android dokumentation:**
  *
  * Light Android theme color scheme
- *
- * `
  */
 val LightAndroidColorScheme = lightColorScheme(
 	primary = Green40,
@@ -124,8 +118,6 @@ val LightAndroidColorScheme = lightColorScheme(
  * **Now in Android dokumentation:**
  *
  * Dark Android theme color scheme
- *
- * `
  */
 val DarkAndroidColorScheme = darkColorScheme(
 	primary = Green80,
@@ -145,7 +137,7 @@ val DarkAndroidColorScheme = darkColorScheme(
 	errorContainer = Red30,
 	onErrorContainer = Red90,
 	background = DarkGreenGray10,
-	onBackground = DarkGreenGray90,
+	onBackground = DarkGreenGray90, // TODO HERTIL I FIGMA
 	surface = DarkGreenGray10,
 	onSurface = DarkGreenGray90,
 	surfaceVariant = GreenGray30,
@@ -159,8 +151,6 @@ val DarkAndroidColorScheme = darkColorScheme(
  * **Now in Android dokumentation:**
  *
  * Light Android gradient colors
- *
- * `
  */
 val LightAndroidGradientColors = GradientColors(container = DarkGreenGray95)
 
@@ -168,8 +158,6 @@ val LightAndroidGradientColors = GradientColors(container = DarkGreenGray95)
  * **Now in Android dokumentation:**
  *
  * Dark Android gradient colors
- *
- * `
  */
 val DarkAndroidGradientColors = GradientColors(container = Color.Black)
 
@@ -177,8 +165,6 @@ val DarkAndroidGradientColors = GradientColors(container = Color.Black)
  * **Now in Android dokumentation:**
  *
  * Light Android background theme
- *
- * `
  */
 val LightAndroidBackgroundTheme = BackgroundTheme(color = DarkGreenGray95)
 
@@ -186,8 +172,6 @@ val LightAndroidBackgroundTheme = BackgroundTheme(color = DarkGreenGray95)
  * **Now in Android dokumentation:**
  *
  * Dark Android background theme
- *
- * `
  */
 val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
 
@@ -202,8 +186,6 @@ val DarkAndroidBackgroundTheme = BackgroundTheme(color = Color.Black)
  *        default theme.
  * @param disableDynamicTheming If `true`, disables the use of dynamic theming, even when it is
  *        supported. This parameter has no effect if [androidTheme] is `true`.
- *
- * `
  */
 @Composable
 fun DineroTheme(

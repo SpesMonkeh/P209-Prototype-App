@@ -19,14 +19,15 @@ class MainActivityViewModel @Inject constructor(
 	userDataRepository: UserDataRepository,
 	appDataRepository: AppDataRepository,
 ) : ViewModel() {
-	val timeOut: Long = 5_000
+	val timeOut: Long = 5000L
 	val uiState: StateFlow<MainActivityUiState> = userDataRepository.userData.map {
 		Success(it)
-	}.stateIn(
-		scope = viewModelScope,
-		initialValue = Loading,
-		started = SharingStarted.WhileSubscribed(stopTimeoutMillis = timeOut)
-	)
+	}
+		.stateIn(
+			scope = viewModelScope,
+			initialValue = Loading,
+			started = SharingStarted.WhileSubscribed(stopTimeoutMillis = timeOut)
+		)
 }
 
 sealed interface MainActivityUiState {

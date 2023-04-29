@@ -60,7 +60,7 @@ import com.p209.dinero.navigation.TopLevelDestination
 	ExperimentalMaterial3Api::class
 )
 @Composable
-fun DineroApp(
+fun DineroAppMainComposable(
 	windowSizeClass: WindowSizeClass,
 	networkMonitor: NetworkMonitor,
 	appState: DineroAppState = rememberDineroAppState(
@@ -79,11 +79,11 @@ fun DineroApp(
 			val isOffline by appState.isOffline.collectAsStateWithLifecycle()
 
 			/* If user is not connected to the internet; show a snack bar to inform them. */
-			val notConnectedMessage = stringResource(R.string.no_internet)
+			val noInternetConnectionMessage = stringResource(R.string.no_internet)
 			LaunchedEffect(isOffline) {
 				if (isOffline) {
 					snackbarHostState.showSnackbar(
-						message = notConnectedMessage,
+						message = noInternetConnectionMessage,
 						duration = Indefinite
 					)
 				}
@@ -98,7 +98,7 @@ fun DineroApp(
 
 			Scaffold(
 				modifier = Modifier.semantics {
-					testTagsAsResourceId = true
+					testTagsAsResourceId = true // TODO Kan måske godt fjernes. Skal vist kun bruges til unit testing.
 				},
 				containerColor = Color.Transparent,
 				contentColor = MaterialTheme.colorScheme.onBackground,
@@ -126,41 +126,43 @@ fun DineroApp(
 							),
 						),
 				) {
-					if (appState.doShowNavigationRail) {
-						DineroNavRail(
-							destinations = appState.topLevelDestinations,
-							onNavigateToDestination = appState::navigateToTopLevelDestination,
-							currentDestination = appState.currentDestination,
-							modifier = Modifier
-								.testTag("DineroNavRail") // TODO Kun nødvendig, hvis vi laver unit testing
-								.safeDrawingPadding()
-						)
-					}
+					val destination = appState.currentTopLevelDestination
 
-					Column(Modifier.fillMaxSize()) {
-						// Show the top app bar on top level destinations.
-						val destination = appState.currentTopLevelDestination
+					if (destination != null) {
 
-						if (destination != null) {
-							DineroTopAppBar(
-								titleResource = destination.titleTextId,
-								actionIcon = DineroIconOFV.cog_stroke12,
-								actionIconContentDescription = null, // TODO Giv beskrivelse
-								colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-									containerColor = Color.Transparent
-								),
-								onActionClick = { appState.setShowSettingsDialog(true) }
+						if (destination.showNavRail && appState.doShowNavigationRail) {
+							DineroNavRail(
+								destinations = appState.topLevelDestinations,
+								onNavigateToDestination = appState::navigateToTopLevelDestination,
+								currentDestination = appState.currentDestination,
+								modifier = Modifier
+									.testTag("DineroNavRail") // TODO Kun nødvendig, hvis vi laver unit testing
+									.safeDrawingPadding()
 							)
 						}
 
-						DineroNavHost(appState.navController)
+						if (destination.showTopAppBar) {
+							Column(Modifier.fillMaxSize()) {
+								// Show the top app bar on top level destinations.
+								DineroTopAppBar(titleResource = destination.titleTextId,
+									actionIcon = DineroIconOFV.cog_stroke12,
+									actionIconContentDescription = null, // TODO Giv beskrivelse
+									colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+										containerColor = Color.Transparent
+									),
+									onActionClick = { appState.setShowSettingsDialog(true) })
+							}
+						}
 					}
 
-					// Now in Android TODO
-					// We may want to add padding or spacer when the snack bar is shown so that
-					// content doesn't display behind it.
+					DineroNavHost(
+						navController = appState.navController,
+					)
 				}
 
+				// Now in Android TODO
+				// We may want to add padding or spacer when the snack bar is shown so that
+				// content doesn't display behind it.
 			}
 		}
 	}

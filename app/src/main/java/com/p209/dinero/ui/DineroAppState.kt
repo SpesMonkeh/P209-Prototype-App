@@ -67,7 +67,7 @@ class DineroAppState(
 	networkMonitor: NetworkMonitor,
 	val navController: NavHostController,
 ) {
-	val timeOut: Long = 5_000
+	val timeOut: Long = 5000L
 
 	val currentDestination: NavDestination?
 		@Composable get() = navController
@@ -101,7 +101,10 @@ class DineroAppState(
 	 * Map of top level destinations to be used in the TopBar, BottomBar and NavRail. The key is the
 	 * route.
 	 */
-	val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.values().asList()
+	val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination
+		.values()
+		.asList()
+		.filter { it.includeOnNavigationRail }
 
 	var doShowSettingsDialog by mutableStateOf(false)
 		private set
