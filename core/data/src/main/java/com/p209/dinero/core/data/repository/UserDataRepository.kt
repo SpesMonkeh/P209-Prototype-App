@@ -23,7 +23,7 @@ interface UserDataRepository {
 	suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig)
 
 	/** Set if the user has completed the onboarding-process. */
-	suspend fun setHideOnboarding(hideOnboarding: Boolean)
+	suspend fun saveOnboardingState(completed: Boolean)
 
 	/** Select, if the app color theme should use [ThemeBrand.DEFAULT] or [ThemeBrand.ANDROID]. */
 	suspend fun setThemeBrand(themeBrand: ThemeBrand)

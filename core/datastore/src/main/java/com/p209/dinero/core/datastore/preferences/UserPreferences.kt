@@ -10,10 +10,10 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class UserPreferences(
-	val userName: String = "",
-	val useDynamicColor: Boolean = true,
-	val hideOnboarding: Boolean = false,
-	val darkThemeConfig: DarkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
-	val themeBrand: ThemeBrand = ThemeBrand.DEFAULT
+    val userName: String = "",
+    val useDynamicColor: Boolean = true,
+    val onboardingCompleted: Boolean = false,
+    val darkThemeConfig: DarkThemeConfig = DarkThemeConfig.FOLLOW_SYSTEM,
+    val themeBrand: ThemeBrand = ThemeBrand.DEFAULT
 )
 

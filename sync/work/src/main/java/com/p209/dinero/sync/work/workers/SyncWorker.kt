@@ -10,7 +10,7 @@ import androidx.work.WorkerParameters
 import com.p209.dinero.core.common.network.di.DineroDispatchers.IO
 import com.p209.dinero.core.common.network.di.Dispatcher
 import com.p209.dinero.core.data.Synchronizer
-import com.p209.dinero.core.datastore.UserPreferencesDataSource
+import com.p209.dinero.core.datastore.UserPreferencesDataStore
 import com.p209.dinero.sync.work.initializers.SyncConstraints
 import com.p209.dinero.sync.work.initializers.syncForegroundInfo
 import dagger.assisted.Assisted
@@ -24,10 +24,10 @@ import kotlinx.coroutines.withContext
  */
 @HiltWorker
 class SyncWorker @AssistedInject constructor(
-	@Assisted private val appContext: Context,
-	@Assisted workerParams: WorkerParameters,
-	private val dineroPreferences: UserPreferencesDataSource,
-	@Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
+    @Assisted private val appContext: Context,
+    @Assisted workerParams: WorkerParameters,
+    private val dineroPreferences: UserPreferencesDataStore,
+    @Dispatcher(IO) private val ioDispatcher: CoroutineDispatcher
 ) : CoroutineWorker(appContext, workerParams), Synchronizer {
 
 	override suspend fun getForegroundInfo(): ForegroundInfo = appContext.syncForegroundInfo()

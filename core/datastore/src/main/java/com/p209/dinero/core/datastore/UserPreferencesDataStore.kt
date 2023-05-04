@@ -8,7 +8,7 @@ import com.p209.dinero.core.model.data.UserData
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class UserPreferencesDataSource @Inject constructor(
+class UserPreferencesDataStore @Inject constructor(
 	private val userPreferences: DataStore<UserPreferences>
 ) {
 	val userData = userPreferences.data
@@ -17,48 +17,38 @@ class UserPreferencesDataSource @Inject constructor(
 				username = it.userName,
 				darkThemeConfig = it.darkThemeConfig,
 				useDynamicColor = it.useDynamicColor,
-				hideOnboarding = it.hideOnboarding,
+				onboardingCompleted = it.onboardingCompleted,
 				themeBrand = it.themeBrand
 			)
 		}
 
 	suspend fun setUserName(userName: String) {
 		userPreferences.updateData {
-			it.copy(
-				userName = userName
-			)
+			it.copy(userName = userName)
 		}
 	}
 
-	suspend fun setHideOnboarding(hideOnboarding: Boolean) {
+	suspend fun saveOnboardingState(completed: Boolean) {
 		userPreferences.updateData {
-			it.copy(
-				hideOnboarding = hideOnboarding
-			)
+			it.copy(onboardingCompleted = completed)
 		}
 	}
 
 	suspend fun setUseDynamicColor(useDynamicColor: Boolean) {
 		userPreferences.updateData {
-			it.copy(
-				useDynamicColor = useDynamicColor
-			)
+			it.copy(useDynamicColor = useDynamicColor)
 		}
 	}
 
 	suspend fun setDarkThemeConfig(darkThemeConfig: DarkThemeConfig) {
 		userPreferences.updateData {
-			it.copy(
-				darkThemeConfig = darkThemeConfig
-			)
+			it.copy(darkThemeConfig = darkThemeConfig)
 		}
 	}
 
 	suspend fun setThemeBrand(themeBrand: ThemeBrand) {
 		userPreferences.updateData {
-			it.copy(
-				themeBrand = themeBrand
-			)
+			it.copy(themeBrand = themeBrand)
 		}
 	}
 }

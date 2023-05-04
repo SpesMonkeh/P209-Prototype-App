@@ -13,5 +13,5 @@ class HomeScreenViewModel @Inject constructor(
 	private val appDataRepository: AppDataRepository,
 ) : ViewModel() {
 
-	private val showOnboarding: Flow<Boolean> = userDataRepository.userData.map { !it.hideOnboarding }
+	private val showOnboarding: Flow<Boolean> = userDataRepository.userData.map { !it.onboardingCompleted }
 }

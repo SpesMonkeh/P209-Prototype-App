@@ -16,7 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarDuration.Indefinite
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -54,6 +54,7 @@ import com.p209.dinero.core.designsystem.theme.LocalGradientColors
 import com.p209.dinero.feature.settings.SettingsDialog
 import com.p209.dinero.navigation.DineroNavHost
 import com.p209.dinero.navigation.TopLevelDestination
+import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalComposeUiApi::class,
 	ExperimentalLayoutApi::class,
@@ -71,30 +72,22 @@ fun DineroAppMainComposable(
 	val doShowGradientBackground =
 		appState.currentTopLevelDestination == TopLevelDestination.HOME_TOP
 
+	val showNavRail = appState.currentTopLevelDestination?.showNavRail ?: true
+
 	DineroBackground {
 		DineroGradientBackground(
-			gradientColors = if (doShowGradientBackground) LocalGradientColors.current else GradientColors()
+			gradientColors =
+			if (doShowGradientBackground)
+				LocalGradientColors.current
+			else
+				GradientColors()
 		) {
+
 			val snackbarHostState = remember { SnackbarHostState() }
-			val isOffline by appState.isOffline.collectAsStateWithLifecycle()
 
-			/* If user is not connected to the internet; show a snack bar to inform them. */
-			val noInternetConnectionMessage = stringResource(R.string.no_internet)
-			LaunchedEffect(isOffline) {
-				if (isOffline) {
-					snackbarHostState.showSnackbar(
-						message = noInternetConnectionMessage,
-						duration = Indefinite
-					)
-				}
-			}
+			ShowNoInternetSnackbarIf(appState.isOffline, snackbarHostState)
 
-			if (appState.doShowSettingsDialog) {
-				SettingsDialog(
-					onDismiss = { appState.setShowSettingsDialog(false) },
-					versionName = BuildConfig.VERSION_NAME
-				)
-			}
+			ShowSettingsDialog(appState)
 
 			Scaffold(
 				modifier = Modifier.semantics {
@@ -105,7 +98,7 @@ fun DineroAppMainComposable(
 				contentWindowInsets = WindowInsets(0, 0, 0, 0),
 				snackbarHost = { SnackbarHost(snackbarHostState) },
 				bottomBar = {
-					if (appState.doShowBottomBar) {
+					if (showNavRail) {
 						DineroBottomBar(
 							destinations = appState.topLevelDestinations,
 							onNavigateToDestination = appState::navigateToTopLevelDestination,
@@ -241,6 +234,33 @@ private fun DineroBottomBar(
 					if (destination.iconTextID == null) return@DineroNavigationBarItem
 					Text(stringResource(destination.iconTextID))
 				}
+			)
+		}
+	}
+}
+
+@Composable
+fun ShowSettingsDialog(appState: DineroAppState) {
+
+	if (!appState.doShowSettingsDialog) return
+
+	SettingsDialog(
+		onDismiss = { appState.setShowSettingsDialog(false) },
+		versionName = BuildConfig.VERSION_NAME
+	)
+}
+
+@Composable
+private fun ShowNoInternetSnackbarIf(connectionState: StateFlow<Boolean>, snackbarHostState: SnackbarHostState) {
+
+	val isOffline by connectionState.collectAsStateWithLifecycle()
+	val noInternetConnectionMessage = stringResource(R.string.no_internet)
+
+	LaunchedEffect(isOffline) {
+		if (isOffline) {
+			snackbarHostState.showSnackbar(
+				message = noInternetConnectionMessage,
+				duration = SnackbarDuration.Indefinite
 			)
 		}
 	}

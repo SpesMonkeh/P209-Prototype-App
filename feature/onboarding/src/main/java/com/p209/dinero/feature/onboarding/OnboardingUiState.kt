@@ -4,8 +4,6 @@ package com.p209.dinero.feature.onboarding
  * *Sealed interface*
  *
  * Beskriver brugerens onboarding-tilstand, hvis der ingen bruger er forbundet til app'en.
- *
- * `
  */
 sealed interface OnboardingUiState {
 

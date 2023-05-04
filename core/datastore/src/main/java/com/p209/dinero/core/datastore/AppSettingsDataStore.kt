@@ -7,7 +7,7 @@ import com.p209.dinero.core.model.data.AppLanguage
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class AppSettingsDataSource @Inject constructor(
+class AppSettingsDataStore @Inject constructor(
 	private val appSettings: DataStore<AppSettings>
 ) {
 	val appData = appSettings.data
