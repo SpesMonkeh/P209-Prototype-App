@@ -5,15 +5,21 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.p209.dinero.feature.onboarding.OnboardingScreenRoute
+import androidx.navigation.navigation
+import com.p209.dinero.core.common.navigation.TopScreen
+import com.p209.dinero.feature.onboarding.OnboardingScreen
 
-const val ONBOARDING_SCREEN_NAVIGATION_ROUTE = "onboarding_screen_route"
-
-fun NavController.navigateToOnboarding(navOptions: NavOptions? = null) =
-	this.navigate(ONBOARDING_SCREEN_NAVIGATION_ROUTE, navOptions)
+fun NavController.navigateToOnboarding(navOptions: NavOptions? = null) {
+	this.navigate(TopScreen.Onboarding.route, navOptions)
+}
 
 @OptIn(ExperimentalFoundationApi::class)
-fun NavGraphBuilder.onboardingScreen() =
-	composable(route = ONBOARDING_SCREEN_NAVIGATION_ROUTE) {
-		OnboardingScreenRoute()
+fun NavGraphBuilder.onboardingScreenGraph(
+	navController: NavController,
+) {
+	navigation(route = TopScreen.Onboarding.route, startDestination = Screen.Welcome.route) {
+		composable(route = Screen.Welcome.route) {
+			OnboardingScreen(navController)
+		}
 	}
+}

@@ -6,7 +6,7 @@
 
 package com.p209.dinero.feature.onboarding
 
-import androidx.activity.compose.ReportDrawnWhen
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -23,60 +23,67 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
-import com.p209.dinero.core.model.data.Screen
+import com.p209.dinero.core.common.navigation.TopScreen
 import com.p209.dinero.feature.onboarding.component.FinishOnboardingButton
 import com.p209.dinero.feature.onboarding.pages.OnboardingPage
+import com.p209.dinero.feature.onboarding.pages.Page
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun OnboardingScreenRoute(
+	navController: NavController,
 	modifier: Modifier = Modifier,
-	viewModel: OnboardingScreenViewModel = hiltViewModel(),
+	viewModel: OnboardingScreenViewModel
 ) {
-	val onboardingUiState by viewModel.onboardingUiState.collectAsStateWithLifecycle()
-
-	OnboardingScreen(
-		viewModel = viewModel,
-		onboardingUiState = onboardingUiState,
-		//onVerifyUsername = viewModel::verifyUsername,
-		//onUpdateUsername = viewModel::setUsername,
-		//onSubmitClick = viewModel::dismissOnboarding,
-		modifier = modifier,
-	)
+	//OnboardingScreen(
+	//	navController = navController,
+	//	onboardingVM = viewModel,
+	//	onboardingUiState = onboardingUiState,
+	//	//onVerifyUsername = viewModel::verifyUsername,
+	//	//onUpdateUsername = viewModel::setUsername,
+	//	//onSubmitClick = viewModel::dismissOnboarding,
+	//	modifier = modifier,
+	//)
 }
 
 @OptIn(ExperimentalPagerApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen(
-	viewModel: OnboardingScreenViewModel,
-	onboardingUiState: OnboardingUiState,
+	navController: NavController,
 	//onVerifyUsername: (String) -> Boolean,
 	//onUpdateUsername: (String) -> Unit,
 	//onSubmitClick: () -> Unit,
 	modifier: Modifier = Modifier,
-	navController: NavHostController = rememberNavController(),
+	onboardingVM: OnboardingScreenViewModel = hiltViewModel(),
 ) {
+	val onboardingUiState by onboardingVM.onboardingUiState.collectAsStateWithLifecycle()
 
-	val onboardingPages = viewModel.pages.size
-	val pagerState = rememberPagerState()
+	val pages = listOf(
+		Page.Welcome,
+		Page.SelectLanguage,
+		Page.SetUsername,
+	)
 
-	val isLoadingOnboarding: Boolean = onboardingUiState is OnboardingUiState.Loading
+	val onboardingPages = pages.size
+	Log.d("Onboarding Screen", "Onboarding Welcome Page index: ${pages.indexOf(Page.Welcome)}")
+	val pagerState = rememberPagerState(initialPage = pages.indexOf(Page.Welcome))
 
-	ReportDrawnWhen { !isLoadingOnboarding }
+	//val isLoadingOnboarding: Boolean = onboardingUiState is OnboardingUiState.Loading
+	//ReportDrawnWhen { !isLoadingOnboarding }
 
 	Column(modifier = modifier.fillMaxSize()) {
 		HorizontalPager(
 			count = onboardingPages,
 			state = pagerState,
 			verticalAlignment = Alignment.Top,
-			modifier = modifier.weight(10f),
-		) { position ->
-			OnboardingPage(page = viewModel.pages[position])
+		) { page ->
+			Log.d("Onboarding Screen Horizontal Pager", "Position => $page OnboardingPage => ${pages[page]} ")
+			OnboardingPage(page = pages[page])
 		}
 		HorizontalPagerIndicator(
 			modifier = modifier
@@ -89,9 +96,9 @@ fun OnboardingScreen(
 			pagerState = pagerState,
 			modifier = modifier.weight(1f),
 		) {
-			viewModel.saveOnboardingState(completed = true)
+			onboardingVM.saveOnboardingState(completed = true)
 			navController.popBackStack()
-			navController.navigate(Screen.Home.route)
+			navController.navigate(TopScreen.Home.route)
 		}
 	}
 }

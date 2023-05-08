@@ -19,26 +19,26 @@ enum class TopLevelDestination(
 	val showNavRail: Boolean = true,
 	val includeOnNavigationRail: Boolean = true,
 ) {
-	HOME_TOP(
+	HOME_TOP_DESTINATION(
 		titleTextId = stringR.app_name, // TODO Ændr til brugernavn og måske tidsbaseret hilsen
 		iconTextID = homeR.string.home,
 		selectedIcon = DrawableResourceIcon(DineroIconOFV.house_stroke12),
 		unselectedIcon = DrawableResourceIcon(DineroIconOFV.house_stroke12)
 	),
-	PANTRY_TOP(
+	PANTRY_TOP_DESTINATION(
 		titleTextId = pantryR.string.pantry,
 		iconTextID = pantryR.string.pantry,
 		selectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
 		unselectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
 		showNavRail = false
 	),
-	BUDGET_TOP(
+	BUDGET_TOP_DESTINATION(
 		titleTextId = budgetR.string.budget,
 		iconTextID = budgetR.string.budget,
 		selectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
 		unselectedIcon = DrawableResourceIcon(DineroIcons.TEST_chefs_hat),
 	),
-	ONBOARDING_TOP(
+	ONBOARDING_TOP_DESTINATION(
 		titleTextId = onboardingR.string.onboarding,
 		showTopAppBar = false,
 		showNavRail = false,

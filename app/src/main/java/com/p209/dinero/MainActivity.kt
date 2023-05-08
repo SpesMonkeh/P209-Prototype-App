@@ -18,13 +18,15 @@ import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.p209.dinero.MainActivityUiState.Loading
-import com.p209.dinero.MainActivityUiState.Success
 import com.p209.dinero.core.data.util.NetworkMonitor
 import com.p209.dinero.core.designsystem.theme.DineroTheme
 import com.p209.dinero.core.model.data.DarkThemeConfig
 import com.p209.dinero.core.model.data.ThemeBrand
-import com.p209.dinero.ui.DineroAppMainComposable
+import com.p209.dinero.ui.DineroPresentation
+import com.p209.dinero.viewModel.MainActivityUiState
+import com.p209.dinero.viewModel.MainActivityUiState.Loading
+import com.p209.dinero.viewModel.MainActivityUiState.Success
+import com.p209.dinero.viewModel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -37,11 +39,12 @@ class MainActivity : ComponentActivity() {
 
 	@Inject	lateinit var networkMonitor: NetworkMonitor
 
-	val viewModel: MainActivityViewModel by viewModels()
+	private val mainActivityVM: MainActivityViewModel by viewModels()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 
-		// val splashScreen: SplashScreen = installSplashScreen()
+		//val splashScreen: SplashScreen = installSplashScreen()
+
 		super.onCreate(savedInstanceState)
 
 		var uiState: MainActivityUiState by mutableStateOf(Loading)
@@ -49,17 +52,13 @@ class MainActivity : ComponentActivity() {
 		updateUiState(
 			lifecycleScope = lifecycleScope,
 			lifecycle = lifecycle,
-			viewModel = viewModel,
+			viewModel = mainActivityVM,
 			onSetUiState = { uiState = it }
 		)
 
-		/* Keep the splash screen on-screen until the UI state is loaded. This condition is evaluated each time
-		 * the app needs to be redrawn so it should be fast to avoid blocking the UI. */
-		// splashScreen.setKeepOnScreenCondition {
-		// 		when (uiState) {
-		//			Loading -> true
-		//			is Success -> false
-		//
+		//splashScreen.setKeepOnScreenCondition {
+		//	IsLoadingUI(mainActivityVM, uiState)
+		//}
 
 		/*  Turn off the decor fitting system windows, which allows us to handle insets, including IME animations */
 		WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -67,6 +66,7 @@ class MainActivity : ComponentActivity() {
 		setContent {
 			val systemUiController = rememberSystemUiController()
 			val applyDarkTheme: Boolean = useDarkTheme(uiState)
+			val startScreen by mainActivityVM.StartDestination
 
 			/* Update the dark content of the system bars to match the theme */
 			DisposableEffect(systemUiController, applyDarkTheme) {
@@ -79,7 +79,8 @@ class MainActivity : ComponentActivity() {
 				androidTheme = useAndroidTheme(uiState),
 				disableDynamicTheming = disableDynamicTheming(uiState)
 			) {
-				DineroAppMainComposable(
+				DineroPresentation(
+					startDestination = startScreen,
 					networkMonitor = networkMonitor,
 					windowSizeClass = calculateWindowSizeClass(this)
 				)
@@ -93,6 +94,20 @@ class MainActivity : ComponentActivity() {
 
 	override fun onPause() {
 		super.onPause()
+	}
+}
+
+/** Keep SplashScreen on-screen until the UI state is loaded. The condition is evaluated
+ * when the app needs to be redrawn; it should be fast to avoid blocking the UI.
+ */
+private fun IsLoadingUI(
+	mainActivityViewModel: MainActivityViewModel,
+	uiState: MainActivityUiState
+): Boolean = when (mainActivityViewModel.IsLoading.value) {
+	true -> true
+	false -> when (uiState) {
+		Loading -> true
+		is Success -> false
 	}
 }
 

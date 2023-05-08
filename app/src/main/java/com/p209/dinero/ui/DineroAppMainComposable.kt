@@ -52,7 +52,7 @@ import com.p209.dinero.core.designsystem.icon.Icon
 import com.p209.dinero.core.designsystem.theme.GradientColors
 import com.p209.dinero.core.designsystem.theme.LocalGradientColors
 import com.p209.dinero.feature.settings.SettingsDialog
-import com.p209.dinero.navigation.DineroNavHost
+import com.p209.dinero.navigation.MainNavHost
 import com.p209.dinero.navigation.TopLevelDestination
 import kotlinx.coroutines.flow.StateFlow
 
@@ -61,7 +61,8 @@ import kotlinx.coroutines.flow.StateFlow
 	ExperimentalMaterial3Api::class
 )
 @Composable
-fun DineroAppMainComposable(
+fun DineroPresentation(
+	startDestination: String,
 	windowSizeClass: WindowSizeClass,
 	networkMonitor: NetworkMonitor,
 	appState: DineroAppState = rememberDineroAppState(
@@ -70,7 +71,7 @@ fun DineroAppMainComposable(
 	)
 ) {
 	val doShowGradientBackground =
-		appState.currentTopLevelDestination == TopLevelDestination.HOME_TOP
+		appState.currentTopLevelDestination == TopLevelDestination.HOME_TOP_DESTINATION
 
 	val showNavRail = appState.currentTopLevelDestination?.showNavRail ?: true
 
@@ -148,8 +149,9 @@ fun DineroAppMainComposable(
 						}
 					}
 
-					DineroNavHost(
+					MainNavHost(
 						navController = appState.navController,
+						startDestination = startDestination
 					)
 				}
 

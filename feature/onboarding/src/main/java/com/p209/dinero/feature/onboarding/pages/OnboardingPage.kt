@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun OnboardingPage(
 	page: Page,
-	modifier: Modifier = Modifier,) {
-
+	modifier: Modifier = Modifier,
+){
 	Column(
 		modifier = modifier.fillMaxWidth(),
 		horizontalAlignment = Alignment.CenterHorizontally,

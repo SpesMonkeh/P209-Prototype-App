@@ -17,7 +17,6 @@ internal fun HomeScreenRoute(
 	modifier: Modifier = Modifier,
 	viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
-
 	HomeScreen(
 		modifier = modifier
 	)

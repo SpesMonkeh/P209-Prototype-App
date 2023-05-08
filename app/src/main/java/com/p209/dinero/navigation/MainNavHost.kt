@@ -5,9 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.p209.dinero.feature.budget.navigation.budgetScreen
-import com.p209.dinero.feature.home.navigation.HOME_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.home.navigation.homeScreen
-import com.p209.dinero.feature.onboarding.navigation.onboardingScreen
+import com.p209.dinero.feature.onboarding.navigation.onboardingScreenGraph
 import com.p209.dinero.feature.pantry.navigation.pantryScreen
 
 /**
@@ -20,17 +19,17 @@ import com.p209.dinero.feature.pantry.navigation.pantryScreen
  * within each route is handled using state and Back Handlers.
  */
 @Composable
-fun DineroNavHost(
+fun MainNavHost(
 	navController: NavHostController,
+	startDestination: String,
 	modifier: Modifier = Modifier,
-	startDestination: String = HOME_SCREEN_NAVIGATION_ROUTE
 ) {
 	NavHost(
 		navController = navController,
 		startDestination = startDestination,
 		modifier = modifier
 	) {
-		onboardingScreen()
+		onboardingScreenGraph(navController)
 		homeScreen()
 		budgetScreen()
 		pantryScreen()

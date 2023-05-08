@@ -4,7 +4,7 @@ package com.p209.dinero.core.model.data
  *
  * Defines the basic user data values, i.e. username, theme etc..
  * If the user should be able to modify a given value, do so through
- * [com.p209.dinero.feature.settings.UserEditableSettings].
+ * [com.p209.dinero.feature.settings.EditableUserPreferences].
  */
 data class UserData(
 	val username: String?, // TODO Bør måske opbevares andetsteds og skal den være nullable?

@@ -32,4 +32,10 @@ sealed interface OnboardingUiState {
 		 */
 		val canBeDismissed: Boolean get() = userName.isNotBlank() && userName.isNotEmpty()
 	}
+
+	/** Onboarding of the user is still ongoing. */
+	object Ongoing: OnboardingUiState
+
+	/**  Onboarding of the user has been completed. */
+	object Completed: OnboardingUiState
 }

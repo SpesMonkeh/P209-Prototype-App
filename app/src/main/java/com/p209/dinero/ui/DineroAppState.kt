@@ -16,20 +16,19 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import androidx.tracing.trace
+import com.p209.dinero.core.common.navigation.TopScreen
 import com.p209.dinero.core.data.util.NetworkMonitor
 import com.p209.dinero.feature.budget.navigation.BUDGET_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.budget.navigation.navigateToBudget
-import com.p209.dinero.feature.home.navigation.HOME_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.home.navigation.navigateToHome
-import com.p209.dinero.feature.onboarding.navigation.ONBOARDING_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.onboarding.navigation.navigateToOnboarding
 import com.p209.dinero.feature.pantry.navigation.PANTRY_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.pantry.navigation.navigateToPantry
 import com.p209.dinero.navigation.TopLevelDestination
-import com.p209.dinero.navigation.TopLevelDestination.BUDGET_TOP
-import com.p209.dinero.navigation.TopLevelDestination.HOME_TOP
-import com.p209.dinero.navigation.TopLevelDestination.ONBOARDING_TOP
-import com.p209.dinero.navigation.TopLevelDestination.PANTRY_TOP
+import com.p209.dinero.navigation.TopLevelDestination.BUDGET_TOP_DESTINATION
+import com.p209.dinero.navigation.TopLevelDestination.HOME_TOP_DESTINATION
+import com.p209.dinero.navigation.TopLevelDestination.ONBOARDING_TOP_DESTINATION
+import com.p209.dinero.navigation.TopLevelDestination.PANTRY_TOP_DESTINATION
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -75,10 +74,10 @@ class DineroAppState(
 
 	val currentTopLevelDestination: TopLevelDestination?
 		@Composable get() = when (currentDestination?.route) {
-			HOME_SCREEN_NAVIGATION_ROUTE -> HOME_TOP
-			PANTRY_SCREEN_NAVIGATION_ROUTE -> PANTRY_TOP
-			BUDGET_SCREEN_NAVIGATION_ROUTE -> BUDGET_TOP
-			ONBOARDING_SCREEN_NAVIGATION_ROUTE -> ONBOARDING_TOP
+			TopScreen.Home.route -> HOME_TOP_DESTINATION
+			PANTRY_SCREEN_NAVIGATION_ROUTE -> PANTRY_TOP_DESTINATION
+			BUDGET_SCREEN_NAVIGATION_ROUTE -> BUDGET_TOP_DESTINATION
+			TopScreen.Onboarding.route -> ONBOARDING_TOP_DESTINATION
 			else -> null
 		}
 
@@ -132,10 +131,10 @@ class DineroAppState(
 				restoreState = true // Restore state when reselecting a previously selected item
 			}
 			when (topLevelDestination) {
-				HOME_TOP -> navController.navigateToHome(topLevelNavOptions)
-				BUDGET_TOP -> navController.navigateToBudget(topLevelNavOptions)
-				PANTRY_TOP -> navController.navigateToPantry(topLevelNavOptions)
-				ONBOARDING_TOP -> navController.navigateToOnboarding(topLevelNavOptions)
+				HOME_TOP_DESTINATION -> navController.navigateToHome(topLevelNavOptions)
+				BUDGET_TOP_DESTINATION -> navController.navigateToBudget(topLevelNavOptions)
+				PANTRY_TOP_DESTINATION -> navController.navigateToPantry(topLevelNavOptions)
+				ONBOARDING_TOP_DESTINATION -> navController.navigateToOnboarding(topLevelNavOptions)
 			}
 		}
 	}
