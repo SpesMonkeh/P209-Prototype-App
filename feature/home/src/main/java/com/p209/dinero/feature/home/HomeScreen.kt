@@ -10,10 +10,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 
 
 @Composable
 internal fun HomeScreenRoute(
+	navController: NavController,
 	modifier: Modifier = Modifier,
 	viewModel: HomeScreenViewModel = hiltViewModel()
 ) {

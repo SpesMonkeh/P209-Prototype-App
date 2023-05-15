@@ -4,16 +4,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
+import com.p209.dinero.core.common.navigation.TopScreen
 import com.p209.dinero.feature.pantry.PantryScreenRoute
 
-const val PANTRY_SCREEN_NAVIGATION_ROUTE = "pantry_screen_route"
-
 fun NavController.navigateToPantry(navOptions: NavOptions? = null) {
-	this.navigate(PANTRY_SCREEN_NAVIGATION_ROUTE, navOptions)
+	this.navigate(route = TopScreen.Pantry.route, navOptions)
 }
 
-fun NavGraphBuilder.pantryScreen() {
-	composable(route = PANTRY_SCREEN_NAVIGATION_ROUTE) {
+fun NavGraphBuilder.pantryTopScreen() {
+	composable(route = TopScreen.Pantry.route) {
 		PantryScreenRoute()
 	}
 }

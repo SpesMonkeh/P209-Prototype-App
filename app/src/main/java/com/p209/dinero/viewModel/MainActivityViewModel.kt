@@ -1,17 +1,20 @@
 package com.p209.dinero.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.p209.dinero.core.common.navigation.TopScreen
+import com.p209.dinero.core.common.navigation.DineoNavGraph
 import com.p209.dinero.core.data.repository.AppDataRepository
 import com.p209.dinero.core.data.repository.UserDataRepository
 import com.p209.dinero.core.model.data.UserData
+import com.p209.dinero.onboarding.OnboardingUiState
 import com.p209.dinero.viewModel.MainActivityUiState.Loading
 import com.p209.dinero.viewModel.MainActivityUiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -24,13 +27,12 @@ class MainActivityViewModel @Inject constructor(
 	private val userDataRepository: UserDataRepository,
 	val appDataRepository: AppDataRepository,
 ) : ViewModel() {
-	private val timeOut: Long = 5000L
 
-	private val isLoading: MutableState<Boolean> = mutableStateOf(true)
-	private val startDestination: MutableState<String> = mutableStateOf(TopScreen.Onboarding.route)
+	private val userData = userDataRepository.userData
+	private val timeOut: Long = 5000L
+	private val startDestination: MutableState<String> = mutableStateOf(DineoNavGraph.Onboarding.route)
 	private val onboardingCompleted: MutableState<Boolean> = mutableStateOf(false)
 
-	val IsLoading: State<Boolean> = isLoading
 	val StartDestination: State<String> = startDestination
 	val OnboardingCompleted: State<Boolean> = onboardingCompleted
 
@@ -42,17 +44,51 @@ class MainActivityViewModel @Inject constructor(
 				started = SharingStarted.WhileSubscribed(timeOut)
 			)
 
+	val onboardingUiState: StateFlow<OnboardingUiState> = userData.map {
+		if (it.onboardingCompleted) {
+			OnboardingUiState.Ongoing
+		} else {
+			OnboardingUiState.Completed
+		}
+	}.stateIn(
+		scope = viewModelScope,
+		started = SharingStarted.WhileSubscribed(timeOut),
+		initialValue = OnboardingUiState.Loading
+	)
+
 	init {
 		viewModelScope.launch {
 			userDataRepository.userData.collect { userData ->
 				startDestination.value = when (userData.onboardingCompleted) {
-					true -> TopScreen.Home.route
-					false -> TopScreen.Onboarding.route
+					true -> DineoNavGraph.Home.route
+					false -> DineoNavGraph.Onboarding.route
 				}
 				onboardingCompleted.value = userData.onboardingCompleted
+				Log.d("MainActivityVM init", "OnboardingCompleted => ${onboardingCompleted.value} ")
+				Log.d("MainActivityVM init", "Start Destination => ${startDestination.value}")
 			}
 		}
 	}
+
+	fun saveOnboardingState(completed: Boolean) {
+		viewModelScope.launch(Dispatchers.IO) {
+			userDataRepository.saveOnboardingState(completed = completed)
+		}
+	}
+
+	fun dismissOnboarding() {
+		viewModelScope.launch {
+			userDataRepository.saveOnboardingState(true)
+		}
+	}
+
+	fun setUsername(username: String) {
+		viewModelScope.launch {
+			userDataRepository.setUsername(username)
+		}
+	}
+
+	fun verifyUsername(username: String?): Boolean = !username.isNullOrEmpty()
 }
 
 sealed interface MainActivityUiState {

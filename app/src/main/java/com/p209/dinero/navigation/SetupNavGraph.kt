@@ -1,13 +1,13 @@
 package com.p209.dinero.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.p209.dinero.feature.budget.navigation.budgetScreen
-import com.p209.dinero.feature.home.navigation.homeScreen
-import com.p209.dinero.feature.onboarding.navigation.onboardingScreenGraph
-import com.p209.dinero.feature.pantry.navigation.pantryScreen
+import com.p209.dinero.core.common.navigation.DineoNavGraph
+import com.p209.dinero.feature.budget.navigation.budgetTopScreen
+import com.p209.dinero.feature.home.navigation.homeNavGraph
+import com.p209.dinero.feature.pantry.navigation.pantryTopScreen
+import com.p209.dinero.onboarding.navigation.onboardingNavGraph
 
 /**
  * **Now in Android dokumentation**
@@ -19,19 +19,21 @@ import com.p209.dinero.feature.pantry.navigation.pantryScreen
  * within each route is handled using state and Back Handlers.
  */
 @Composable
-fun MainNavHost(
+fun SetupNavGraph(
 	navController: NavHostController,
-	startDestination: String,
-	modifier: Modifier = Modifier,
+	onSaveOnboardingState: (Boolean) -> Unit,
+	startDestination: String = DineoNavGraph.Home.route
 ) {
 	NavHost(
 		navController = navController,
 		startDestination = startDestination,
-		modifier = modifier
+		route = DineoNavGraph.Root.route,
 	) {
-		onboardingScreenGraph(navController)
-		homeScreen()
-		budgetScreen()
-		pantryScreen()
+		homeNavGraph(navController)
+		onboardingNavGraph(
+			onSaveOnboardingState = onSaveOnboardingState,
+			navController = navController)
+		pantryTopScreen()
+		budgetTopScreen()
 	}
 }

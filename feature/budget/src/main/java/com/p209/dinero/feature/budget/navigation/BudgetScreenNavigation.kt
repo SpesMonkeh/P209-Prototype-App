@@ -12,7 +12,7 @@ fun NavController.navigateToBudget(navOptions: NavOptions? = null) {
 	this.navigate(BUDGET_SCREEN_NAVIGATION_ROUTE, navOptions)
 }
 
-fun NavGraphBuilder.budgetScreen() {
+fun NavGraphBuilder.budgetTopScreen() {
 	composable(route = BUDGET_SCREEN_NAVIGATION_ROUTE) {
 		BudgetScreenRoute()
 	}

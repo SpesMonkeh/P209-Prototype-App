@@ -1,6 +1,7 @@
 package com.p209.dinero
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -12,6 +13,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleCoroutineScope
@@ -22,7 +24,9 @@ import com.p209.dinero.core.data.util.NetworkMonitor
 import com.p209.dinero.core.designsystem.theme.DineroTheme
 import com.p209.dinero.core.model.data.DarkThemeConfig
 import com.p209.dinero.core.model.data.ThemeBrand
-import com.p209.dinero.ui.DineroPresentation
+import com.p209.dinero.navigation.SetupNavGraph
+import com.p209.dinero.ui.DineoPresentation
+import com.p209.dinero.ui.rememberDineroAppState
 import com.p209.dinero.viewModel.MainActivityUiState
 import com.p209.dinero.viewModel.MainActivityUiState.Loading
 import com.p209.dinero.viewModel.MainActivityUiState.Success
@@ -43,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 
-		//val splashScreen: SplashScreen = installSplashScreen()
+		val splashScreen = installSplashScreen()
 
 		super.onCreate(savedInstanceState)
 
@@ -52,13 +56,16 @@ class MainActivity : ComponentActivity() {
 		updateUiState(
 			lifecycleScope = lifecycleScope,
 			lifecycle = lifecycle,
-			viewModel = mainActivityVM,
+			mainActivityVM = mainActivityVM,
 			onSetUiState = { uiState = it }
 		)
 
-		//splashScreen.setKeepOnScreenCondition {
-		//	IsLoadingUI(mainActivityVM, uiState)
-		//}
+		splashScreen.setKeepOnScreenCondition {
+			when(uiState) {
+				Loading -> true
+				is Success -> false
+			}
+		}
 
 		/*  Turn off the decor fitting system windows, which allows us to handle insets, including IME animations */
 		WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -67,6 +74,9 @@ class MainActivity : ComponentActivity() {
 			val systemUiController = rememberSystemUiController()
 			val applyDarkTheme: Boolean = useDarkTheme(uiState)
 			val startScreen by mainActivityVM.StartDestination
+			val onboardingCompleted = mainActivityVM.OnboardingCompleted
+
+			Log.d("onCreate", "StartDestination => $startScreen")
 
 			/* Update the dark content of the system bars to match the theme */
 			DisposableEffect(systemUiController, applyDarkTheme) {
@@ -74,15 +84,31 @@ class MainActivity : ComponentActivity() {
 				onDispose { }
 			}
 
+			val windowSizeClass = calculateWindowSizeClass(this)
+
 			DineroTheme(
 				darkTheme = applyDarkTheme,
 				androidTheme = useAndroidTheme(uiState),
 				disableDynamicTheming = disableDynamicTheming(uiState)
 			) {
-				DineroPresentation(
-					startDestination = startScreen,
+				val appState = rememberDineroAppState(
+					windowSizeClass = windowSizeClass,
 					networkMonitor = networkMonitor,
-					windowSizeClass = calculateWindowSizeClass(this)
+				)
+
+				SetupNavGraph(
+					navController = appState.navController,
+					onSaveOnboardingState = mainActivityVM::saveOnboardingState,
+					startDestination = mainActivityVM.StartDestination.value
+				)
+
+				if (!onboardingCompleted.value) return@DineroTheme
+
+				DineoPresentation(
+					networkMonitor = networkMonitor,
+					windowSizeClass = windowSizeClass,
+					mainActivityVM = mainActivityVM,
+					appState = appState
 				)
 			}
 		}
@@ -97,29 +123,15 @@ class MainActivity : ComponentActivity() {
 	}
 }
 
-/** Keep SplashScreen on-screen until the UI state is loaded. The condition is evaluated
- * when the app needs to be redrawn; it should be fast to avoid blocking the UI.
- */
-private fun IsLoadingUI(
-	mainActivityViewModel: MainActivityViewModel,
-	uiState: MainActivityUiState
-): Boolean = when (mainActivityViewModel.IsLoading.value) {
-	true -> true
-	false -> when (uiState) {
-		Loading -> true
-		is Success -> false
-	}
-}
-
 private fun updateUiState(
 	lifecycleScope: LifecycleCoroutineScope,
 	lifecycle: Lifecycle,
-	viewModel: MainActivityViewModel,
+	mainActivityVM: MainActivityViewModel,
 	onSetUiState: (MainActivityUiState) -> Unit,
 ) {
 	lifecycleScope.launch {
 		lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-			viewModel.uiState
+			mainActivityVM.uiState
 				.onEach {
 					onSetUiState(it)
 				}

@@ -45,6 +45,7 @@ android {
 dependencies {
 
     // Dinero
+    implementation project(path: ':core:common')
     implementation project(path: ':core:data')
 
     // ==============================================================

@@ -18,17 +18,15 @@ import androidx.navigation.navOptions
 import androidx.tracing.trace
 import com.p209.dinero.core.common.navigation.TopScreen
 import com.p209.dinero.core.data.util.NetworkMonitor
-import com.p209.dinero.feature.budget.navigation.BUDGET_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.budget.navigation.navigateToBudget
 import com.p209.dinero.feature.home.navigation.navigateToHome
-import com.p209.dinero.feature.onboarding.navigation.navigateToOnboarding
-import com.p209.dinero.feature.pantry.navigation.PANTRY_SCREEN_NAVIGATION_ROUTE
 import com.p209.dinero.feature.pantry.navigation.navigateToPantry
 import com.p209.dinero.navigation.TopLevelDestination
 import com.p209.dinero.navigation.TopLevelDestination.BUDGET_TOP_DESTINATION
 import com.p209.dinero.navigation.TopLevelDestination.HOME_TOP_DESTINATION
 import com.p209.dinero.navigation.TopLevelDestination.ONBOARDING_TOP_DESTINATION
 import com.p209.dinero.navigation.TopLevelDestination.PANTRY_TOP_DESTINATION
+import com.p209.dinero.onboarding.navigation.navigateToOnboarding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -39,7 +37,7 @@ fun rememberDineroAppState(
 	windowSizeClass: WindowSizeClass,
 	networkMonitor: NetworkMonitor,
 	coroutineScope: CoroutineScope = rememberCoroutineScope(),
-	navController: NavHostController = rememberNavController(),
+	navController: NavHostController = rememberNavController()
 ): DineroAppState {
 
 	// NavigationTrackingSideEffects(navController)
@@ -69,16 +67,17 @@ class DineroAppState(
 	val timeOut: Long = 5000L
 
 	val currentDestination: NavDestination?
-		@Composable get() = navController
-			.currentBackStackEntryAsState().value?.destination
+		@Composable get() {
+			return navController.currentBackStackEntryAsState().value?.destination
+		}
 
-	val currentTopLevelDestination: TopLevelDestination?
+	val currentTopLevelDestination: TopLevelDestination
 		@Composable get() = when (currentDestination?.route) {
 			TopScreen.Home.route -> HOME_TOP_DESTINATION
-			PANTRY_SCREEN_NAVIGATION_ROUTE -> PANTRY_TOP_DESTINATION
-			BUDGET_SCREEN_NAVIGATION_ROUTE -> BUDGET_TOP_DESTINATION
+			TopScreen.Pantry.route -> PANTRY_TOP_DESTINATION
+			TopScreen.Budget.route -> BUDGET_TOP_DESTINATION
 			TopScreen.Onboarding.route -> ONBOARDING_TOP_DESTINATION
-			else -> null
+			else -> HOME_TOP_DESTINATION
 		}
 
 	val doShowBottomBar: Boolean
@@ -127,14 +126,16 @@ class DineroAppState(
 
 				launchSingleTop = true // Avoid multiple copies of the same destination when reselecting the same item
 
+				// Restore state when reselecting a previously selected item
+				restoreState = true
 
-				restoreState = true // Restore state when reselecting a previously selected item
 			}
 			when (topLevelDestination) {
 				HOME_TOP_DESTINATION -> navController.navigateToHome(topLevelNavOptions)
 				BUDGET_TOP_DESTINATION -> navController.navigateToBudget(topLevelNavOptions)
 				PANTRY_TOP_DESTINATION -> navController.navigateToPantry(topLevelNavOptions)
 				ONBOARDING_TOP_DESTINATION -> navController.navigateToOnboarding(topLevelNavOptions)
+
 			}
 		}
 	}

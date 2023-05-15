@@ -52,36 +52,31 @@ import com.p209.dinero.core.designsystem.icon.Icon
 import com.p209.dinero.core.designsystem.theme.GradientColors
 import com.p209.dinero.core.designsystem.theme.LocalGradientColors
 import com.p209.dinero.feature.settings.SettingsDialog
-import com.p209.dinero.navigation.MainNavHost
 import com.p209.dinero.navigation.TopLevelDestination
+import com.p209.dinero.viewModel.MainActivityViewModel
 import kotlinx.coroutines.flow.StateFlow
 
-@OptIn(ExperimentalComposeUiApi::class,
+@OptIn(
+	ExperimentalComposeUiApi::class,
 	ExperimentalLayoutApi::class,
 	ExperimentalMaterial3Api::class
 )
 @Composable
-fun DineroPresentation(
-	startDestination: String,
+fun DineoPresentation(
 	windowSizeClass: WindowSizeClass,
 	networkMonitor: NetworkMonitor,
-	appState: DineroAppState = rememberDineroAppState(
-		windowSizeClass = windowSizeClass,
-		networkMonitor = networkMonitor
-	)
+	mainActivityVM: MainActivityViewModel,
+	appState: DineroAppState,
 ) {
 	val doShowGradientBackground =
 		appState.currentTopLevelDestination == TopLevelDestination.HOME_TOP_DESTINATION
 
-	val showNavRail = appState.currentTopLevelDestination?.showNavRail ?: true
+	val showNavRail = appState.currentTopLevelDestination.showNavRail
 
 	DineroBackground {
 		DineroGradientBackground(
 			gradientColors =
-			if (doShowGradientBackground)
-				LocalGradientColors.current
-			else
-				GradientColors()
+			if (doShowGradientBackground) LocalGradientColors.current else GradientColors()
 		) {
 
 			val snackbarHostState = remember { SnackbarHostState() }
@@ -122,37 +117,27 @@ fun DineroPresentation(
 				) {
 					val destination = appState.currentTopLevelDestination
 
-					if (destination != null) {
-
-						if (destination.showNavRail && appState.doShowNavigationRail) {
-							DineroNavRail(
-								destinations = appState.topLevelDestinations,
-								onNavigateToDestination = appState::navigateToTopLevelDestination,
-								currentDestination = appState.currentDestination,
-								modifier = Modifier
-									.testTag("DineroNavRail") // TODO Kun nødvendig, hvis vi laver unit testing
-									.safeDrawingPadding()
-							)
-						}
-
-						if (destination.showTopAppBar) {
-							Column(Modifier.fillMaxSize()) {
-								// Show the top app bar on top level destinations.
-								DineroTopAppBar(titleResource = destination.titleTextId,
-									actionIcon = DineroIconOFV.cog_stroke12,
-									actionIconContentDescription = null, // TODO Giv beskrivelse
-									colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-										containerColor = Color.Transparent
-									),
-									onActionClick = { appState.setShowSettingsDialog(true) })
-							}
-						}
+					if (destination.showNavRail && appState.doShowNavigationRail) {
+						DineroNavRail(
+							destinations = appState.topLevelDestinations,
+							onNavigateToDestination = appState::navigateToTopLevelDestination,
+							currentDestination = appState.currentDestination,
+							modifier = Modifier.safeDrawingPadding()
+						)
 					}
 
-					MainNavHost(
-						navController = appState.navController,
-						startDestination = startDestination
-					)
+					if (destination.showTopAppBar) {
+						Column(Modifier.fillMaxSize()) {
+							// Show the top app bar on top level destinations.
+							DineroTopAppBar(titleResource = destination.titleTextId,
+								actionIcon = DineroIconOFV.cog_stroke12,
+								actionIconContentDescription = null, // TODO Giv beskrivelse
+								colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+									containerColor = Color.Transparent
+								),
+								onActionClick = { appState.setShowSettingsDialog(true) })
+						}
+					}
 				}
 
 				// Now in Android TODO

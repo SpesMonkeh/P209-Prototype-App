@@ -32,10 +32,14 @@
     <style name="NightAdjusted.Theme.Splash" parent="Theme.SplashScreen">
         <item name="android:windowLightStatusBar" >true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/dinero_logo_shape</item>
+        <item name="windowSplashScreenBackground">#0D007F</item>
+        <item name="postSplashScreenTheme">@style/Theme.Dinero</item>
     </style>
 
     <style name="Theme.Dinero.Splash" parent="NightAdjusted.Theme.Splash">
-        <item name="windowSplashScreenAnimatedIcon">@drawable/missing_image256</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/dinero_logo_shape</item>
+        <item name="windowSplashScreenBackground">#0D007F</item>
         <item name="postSplashScreenTheme">@style/Theme.Dinero</item>
     </style>
 </resources>

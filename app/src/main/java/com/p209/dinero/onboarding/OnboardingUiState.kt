@@ -1,32 +1,32 @@
-package com.p209.dinero.feature.onboarding
+package com.p209.dinero.onboarding
 
 /**
  * *Sealed interface*
  *
- * Beskriver brugerens onboarding-tilstand, hvis der ingen bruger er forbundet til app'en.
+ * Describes the user's onboarding-process, if there is not already a user connected to the app.
  */
 sealed interface OnboardingUiState {
 
-	/** Onboarding State hentes. */
+	/** Onboarding State is being loaded. */
 	object Loading: OnboardingUiState
 
-	/** Onboarding State kunne ikke hentes. */
+	/** Onboarding State could not be loaded. */
 	object LoadFailed: OnboardingUiState
 
 	/**
-	 * Onboarding State findes ikke.
+	 * Onboarding State was not found.
 	 *
-	 * (objektet kaldes `NotShown` i *Now in Android*)
+	 * (called `NotShown` in *Now in Android*)
 	 */
 	object Hidden: OnboardingUiState
 
-	/** Onboarding State findes. */
+	/** Onboarding State was found. */
 	data class Shown(
 		val userName: String
 	): OnboardingUiState {
 
 		/**
-		 * `true`; hvis brugeren har opgivet et [userName]
+		 * `true`; if the user has provided a [userName]
 		 *
 		 * [TODO] gør afhængig af andre, obligatoriske opsætningsvariable
 		 */

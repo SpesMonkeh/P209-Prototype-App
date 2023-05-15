@@ -1,4 +1,4 @@
-package com.p209.dinero.feature.onboarding.navigation
+package com.p209.dinero.onboarding.navigation
 
 const val ONBOARDING_WELCOME_ROUTE: String = "Onboarding_Welcome"
 const val ONBOARDING_LANGUAGE_ROUTE: String = "Onboarding_Language"

@@ -1,4 +1,4 @@
-package com.p209.dinero.feature.onboarding.component
+package com.p209.dinero.onboarding.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.p209.dinero.feature.onboarding.R
+import com.p209.dinero.core.designsystem.R.drawable as DrawableR
+import com.p209.dinero.core.designsystem.R.string as StringR
 
 fun LazyGridScope.selectLanguageOnboardingStep(
 	modifier: Modifier = Modifier
@@ -22,7 +23,7 @@ fun LazyGridScope.selectLanguageOnboardingStep(
 			verticalArrangement = Arrangement.spacedBy(20.dp),
 		) {
 			OnboardingStepText(
-				textRes = R.string.info_select_language,
+				textRes = StringR.info_select_language,
 				modifier = modifier.align(Alignment.CenterHorizontally)
 			)
 			Row(
@@ -30,14 +31,14 @@ fun LazyGridScope.selectLanguageOnboardingStep(
 				modifier = modifier.fillMaxWidth()
 			) {
 				ImageVectorButton(
-					imageVector = R.drawable.flag_dk,
-					contentDescription = R.string.desc_DK_flag,
+					imageVector = DrawableR.flag_dk,
+					contentDescription = StringR.desc_DK_flag,
 					buttonAction = { /*TODO*/ }
 				)
 
 				ImageVectorButton(
-					imageVector = R.drawable.flag_uk,
-					contentDescription = R.string.desc_EN_flag,
+					imageVector = DrawableR.flag_uk,
+					contentDescription = StringR.desc_EN_flag,
 					buttonAction = { /*TODO*/ },
 				)
 			}

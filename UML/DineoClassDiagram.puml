@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class DineroApplication {
+    onCreate() : Unit
+}
+DineroApplication <|-- Application
+
+class MainActivity {
+    +<<Inject, lateinit, var>> networkMonitor : NetworkMonitor
+    - <<val>> mainActivityVM : MainActivityViewModel
+
+    +<<Override>> onCreate(Bundle?) : Unit
+    +<<Override>> onResume() : Unit
+    +<<Override>> onPause() : Unit
+
+    - updateUiState(LifecycleCoroutineScope, Lifecycle, MainActivityViewModel, (MainActivityUiState)->Unit) : Unit
+    -<<Composable>> useAndroidTheme(MainActivityUiState) : Boolean
+    -<<Composable>> disableDynamicTheming(MainActivityUiState) : Boolean
+    -<<Composable>> useDarkTheme(MainActivityUiState) : Boolean
+}
+MainActivity <|-- ComponentActivity
+
+
+newpage
+
+class MainActivityViewModel {
+    - val userData : Flow<UserData>
+    - val timeOut : Long
+    - val startDestination : MutableState<String>
+    - val onboardingCompleted : Flow<Boolean>
+    + val StartDestination : State<String>
+    + val OnboardingCompleted : State<Boolean>
+    + val uiState : StateFlow<MainActivityUiState>
+    + val onboardingUiState : StateFlow<OnboardingUiState>
+    + saveOnboardingState(Boolean) : Unit
+    + dismissOnboarding() : Unit
+    + setUsername(String) : Unit
+    + verifyUsername(String?) : Boolean
+}
+MainActivityViewModel <|-- ViewModel
+
+interface MainActivityUiState {
+    + object Loading : MainActivityUiState
+    + data class Success(UserData) : MainActivityUiState
+}
+@enduml

@@ -1,9 +1,9 @@
-package com.p209.dinero.feature.onboarding.pages
+package com.p209.dinero.onboarding.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.p209.dinero.feature.onboarding.R.drawable as DrawableR
-import com.p209.dinero.feature.onboarding.R.string as StringR
+import com.p209.dinero.core.designsystem.R.drawable as DrawableR
+import com.p209.dinero.core.designsystem.R.string as StringR
 
 sealed class Page(
 	@DrawableRes val image: Int,

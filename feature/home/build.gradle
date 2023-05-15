@@ -65,6 +65,9 @@ dependencies {
     implementation project(path: ':core:common')
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation ("androidx.hilt:hilt-navigation-compose:1.1.0-alpha01")
+    // Accompanist
+    implementation "com.google.accompanist:accompanist-pager:0.27.0"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.27.0"
 
     // Java
     implementation 'javax.inject:javax.inject:1'

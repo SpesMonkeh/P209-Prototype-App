@@ -1,9 +1,9 @@
-@file:OptIn(ExperimentalPagerApi::class,
+@file:OptIn(
 	ExperimentalPagerApi::class,
 	ExperimentalAnimationApi::class
 )
 
-package com.p209.dinero.feature.onboarding.component
+package com.p209.dinero.onboarding.component
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
