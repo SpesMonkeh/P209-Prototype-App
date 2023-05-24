@@ -12,7 +12,7 @@ object DineroIcons {
 
 }
 
-object DineroIconOFV {
+object DineoIconOFV {
 	@DrawableRes val house_stroke12: Int = R.drawable.house_stroke12_ofv
 	@DrawableRes val cog_stroke12: Int = R.drawable.cog_stroke12_ofv
 }

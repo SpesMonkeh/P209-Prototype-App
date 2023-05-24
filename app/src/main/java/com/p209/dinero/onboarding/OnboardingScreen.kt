@@ -39,8 +39,8 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
-import com.p209.dinero.core.designsystem.component.DineroBackground
-import com.p209.dinero.core.designsystem.component.DineroGradientBackground
+import com.p209.dinero.core.designsystem.component.DineoBackground
+import com.p209.dinero.core.designsystem.component.DineoGradientBackground
 import com.p209.dinero.core.designsystem.theme.LocalGradientColors
 import com.p209.dinero.feature.onboarding.R
 import com.p209.dinero.onboarding.component.FinishOnboardingButton
@@ -88,8 +88,8 @@ fun OnboardingScreen(
 	//val isLoadingOnboarding: Boolean = onboardingUiState is OnboardingUiState.Loading
 	//ReportDrawnWhen { !isLoadingOnboarding }
 
-	DineroBackground {
-		DineroGradientBackground(
+	DineoBackground {
+		DineoGradientBackground(
 			gradientColors = LocalGradientColors.current
 		) {
 

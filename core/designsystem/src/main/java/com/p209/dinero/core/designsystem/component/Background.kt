@@ -34,7 +34,7 @@ import kotlin.math.tan
  * @param content The background content.
  */
 @Composable
-fun DineroBackground(
+fun DineoBackground(
 	modifier: Modifier = Modifier,
 	content: @Composable () -> Unit
 ) {
@@ -62,7 +62,7 @@ fun DineroBackground(
  * @param content The background content.
  */
 @Composable
-fun DineroGradientBackground(
+fun DineoGradientBackground(
 	modifier: Modifier = Modifier,
 	gradientColors: GradientColors = LocalGradientColors.current,
 	content: @Composable () -> Unit
@@ -131,7 +131,7 @@ annotation class ThemePreviews
 @Composable
 fun BackgroundDefault() {
 	DineroTheme(disableDynamicTheming = true) {
-		DineroBackground(Modifier.size(100.dp), content = {})
+		DineoBackground(Modifier.size(100.dp), content = {})
 	}
 }
 
@@ -139,7 +139,7 @@ fun BackgroundDefault() {
 @Composable
 fun BackgroundDynamic() {
 	DineroTheme(disableDynamicTheming = false) {
-		DineroBackground(Modifier.size(100.dp), content = {})
+		DineoBackground(Modifier.size(100.dp), content = {})
 	}
 }
 
@@ -147,7 +147,7 @@ fun BackgroundDynamic() {
 @Composable
 fun BackgroundAndroid() {
 	DineroTheme(androidTheme = true) {
-		DineroBackground(Modifier.size(100.dp), content = {})
+		DineoBackground(Modifier.size(100.dp), content = {})
 	}
 }
 
@@ -155,7 +155,7 @@ fun BackgroundAndroid() {
 @Composable
 fun GradientBackgroundDefault() {
 	DineroTheme(disableDynamicTheming = true) {
-		DineroGradientBackground(Modifier.size(100.dp), content = {})
+		DineoGradientBackground(Modifier.size(100.dp), content = {})
 	}
 }
 
@@ -163,7 +163,7 @@ fun GradientBackgroundDefault() {
 @Composable
 fun GradientBackgroundDynamic() {
 	DineroTheme(disableDynamicTheming = false) {
-		DineroGradientBackground(Modifier.size(100.dp), content = {})
+		DineoGradientBackground(Modifier.size(100.dp), content = {})
 	}
 }
 
@@ -171,6 +171,6 @@ fun GradientBackgroundDynamic() {
 @Composable
 fun GradientBackgroundAndroid() {
 	DineroTheme(androidTheme = true) {
-		DineroGradientBackground(Modifier.size(100.dp), content = {})
+		DineoGradientBackground(Modifier.size(100.dp), content = {})
 	}
 }

@@ -7,8 +7,8 @@ class DineroApplication {
 DineroApplication <|-- Application
 
 class MainActivity {
-    +<<Inject, lateinit, var>> networkMonitor : NetworkMonitor
-    - <<val>> mainActivityVM : MainActivityViewModel
+    +<<Inject, lateinit>> networkMonitor : NetworkMonitor
+    - mainActivityVM : MainActivityViewModel
 
     +<<Override>> onCreate(Bundle?) : Unit
     +<<Override>> onResume() : Unit
@@ -21,18 +21,17 @@ class MainActivity {
 }
 MainActivity <|-- ComponentActivity
 
-
 newpage
 
 class MainActivityViewModel {
-    - val userData : Flow<UserData>
-    - val timeOut : Long
-    - val startDestination : MutableState<String>
-    - val onboardingCompleted : Flow<Boolean>
-    + val StartDestination : State<String>
-    + val OnboardingCompleted : State<Boolean>
-    + val uiState : StateFlow<MainActivityUiState>
-    + val onboardingUiState : StateFlow<OnboardingUiState>
+    - userData : Flow<UserData>
+    - timeOut : Long
+    - startDestination : MutableState<String>
+    - onboardingCompleted : Flow<Boolean>
+    + StartDestination : State<String>
+    + OnboardingCompleted : State<Boolean>
+    + uiState : StateFlow<MainActivityUiState>
+    + onboardingUiState : StateFlow<OnboardingUiState>
     + saveOnboardingState(Boolean) : Unit
     + dismissOnboarding() : Unit
     + setUsername(String) : Unit
@@ -40,8 +39,99 @@ class MainActivityViewModel {
 }
 MainActivityViewModel <|-- ViewModel
 
+class SetupNavGraph {
+    - navController : NavHostController
+    - onSaveOnboardingState : (Boolean) -> Unit
+    - startDestination : String = DineoNavGraph.Home.route
+
+    - NavHost(NavHostController, String, String) : Unit
+}
+
 interface MainActivityUiState {
     + object Loading : MainActivityUiState
     + data class Success(UserData) : MainActivityUiState
 }
+
+newpage
+
+class HomeScreen {
+    <<Internal>> HomeScreenRoute(NavController, Modifier, HomeScreenViewModel) : Unit
+    + <<Composable>> HomeScreen(Modifier) : Unit
+}
+
+class HomeScreenViewModel {
+    - <<Constructor>> UserDataRepository
+    - <<Constructor>> AppDataRespository
+}
+HomeScreenViewModel <|- ViewModel
+
+class HomeScreenNavigation {
+    + <<Extension>> NavController.navigateToHome(NavOptions?) : Unit
+    + <<Extension>> NavGraphBuilder.homeNavGraph(NavController) : Unit
+}
+
+class Composables {
+    + <<Composable>> HomeScreenButton(String, Modifier, <<lambda>> Unit, TextUnit, Boolean) : Unit
+}
+
+newpage
+
+class BudgetScreen {
+    + <<Composable>> BudgetScreen(Modifier) : Unit
+    <<Internal, Composable>> BudgetScreenRoute(Modifier, BudgetScreenViewModel) : Unit
+}
+
+class BudgetScreenViewModel {
+    <<Constructor>> UserDataRepository
+    <<Constructor>> AppDataRespository
+}
+BudgetScreenViewModel <|- ViewModel
+
+class BudgetScreenNavigation {
+    + <<Extension>> NavController.navigateToBudget(NavOptions?) : Unit
+    + <<Extension>> NavGraphBuilder.budgetNavGraph() : Unit
+}
+
+newpage
+
+class PantryScreen {
+    <<Internal>> PantryScreenRoute(Modifier, PantryScreenViewModel) : Unit
+    + <<Composable>> PantryScreen(Modifier)
+}
+
+class PantryScreenViewModel {
+    <<Constructor>> UserDataRepository
+    <<Constructor>> AppDataRespository
+}
+PantryScreenViewModel <|- ViewModel
+
+class PantryScreenNavigation {
+    + <<Extension>> NavController.navigateToPantry(NavOptions?) : Unit
+    + <<Extension>> NavGraphBuilder.pantryNavGraph() : Unit
+}
+
+newpage
+
+class AppSettingsViewModel {
+    - <<Constructor>> AppDataRespository
+
+    + updateAppLanguage(AppLanguage) : Unit
+}
+AppSettingsViewModel <|- ViewModel
+
+object EditableAppSettings {
+    + appLanguage : AppLanguage
+}
+
+interface AppSettingsSettingsUiState {
+    + Loading : AppSettingsSettingsUiState
+    + Success(EditableAppSettings) : AppSettingsSettingsUiState
+}
+
+class SettingsDialog {
+ + SettingsDialog(<<lambda>>Unit, String, UserPreferencesViewModel) : Unit
+ + SettingsDialog(<<lambda>>Unit, <<lambda>>Boolean : Unit, <<lambda>>DarkThemeConfig : Unit, <<lamba>>String : Unit, String, Boolean)
+}
+
+
 @enduml

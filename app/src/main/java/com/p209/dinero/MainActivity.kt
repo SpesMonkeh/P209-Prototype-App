@@ -24,8 +24,7 @@ import com.p209.dinero.core.data.util.NetworkMonitor
 import com.p209.dinero.core.designsystem.theme.DineroTheme
 import com.p209.dinero.core.model.data.DarkThemeConfig
 import com.p209.dinero.core.model.data.ThemeBrand
-import com.p209.dinero.navigation.SetupNavGraph
-import com.p209.dinero.ui.DineoPresentation
+import com.p209.dinero.ui.Presentation
 import com.p209.dinero.ui.rememberDineroAppState
 import com.p209.dinero.viewModel.MainActivityUiState
 import com.p209.dinero.viewModel.MainActivityUiState.Loading
@@ -73,8 +72,8 @@ class MainActivity : ComponentActivity() {
 		setContent {
 			val systemUiController = rememberSystemUiController()
 			val applyDarkTheme: Boolean = useDarkTheme(uiState)
+			val onboardingCompleted: Boolean = mainActivityVM.OnboardingCompleted.value
 			val startScreen by mainActivityVM.StartDestination
-			val onboardingCompleted = mainActivityVM.OnboardingCompleted
 
 			Log.d("onCreate", "StartDestination => $startScreen")
 
@@ -96,15 +95,14 @@ class MainActivity : ComponentActivity() {
 					networkMonitor = networkMonitor,
 				)
 
-				SetupNavGraph(
+				//SetupNavGraph(
+				//	navController = appState.navController,
+				//	onSaveOnboardingState = mainActivityVM::saveOnboardingState,
+				//	startDestination = startScreen
+				//)
+
+				Presentation(
 					navController = appState.navController,
-					onSaveOnboardingState = mainActivityVM::saveOnboardingState,
-					startDestination = mainActivityVM.StartDestination.value
-				)
-
-				if (!onboardingCompleted.value) return@DineroTheme
-
-				DineoPresentation(
 					networkMonitor = networkMonitor,
 					windowSizeClass = windowSizeClass,
 					mainActivityVM = mainActivityVM,

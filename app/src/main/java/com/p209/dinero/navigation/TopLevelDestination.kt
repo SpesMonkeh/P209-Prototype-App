@@ -1,6 +1,6 @@
 package com.p209.dinero.navigation
 
-import com.p209.dinero.core.designsystem.icon.DineroIconOFV
+import com.p209.dinero.core.designsystem.icon.DineoIconOFV
 import com.p209.dinero.core.designsystem.icon.DineroIcons
 import com.p209.dinero.core.designsystem.icon.Icon
 import com.p209.dinero.core.designsystem.icon.Icon.DrawableResourceIcon
@@ -22,8 +22,8 @@ enum class TopLevelDestination(
 	HOME_TOP_DESTINATION(
 		titleTextId = stringR.app_name, // TODO Ændr til brugernavn og måske tidsbaseret hilsen
 		iconTextID = homeR.string.home,
-		selectedIcon = DrawableResourceIcon(DineroIconOFV.house_stroke12),
-		unselectedIcon = DrawableResourceIcon(DineroIconOFV.house_stroke12)
+		selectedIcon = DrawableResourceIcon(DineoIconOFV.house_stroke12),
+		unselectedIcon = DrawableResourceIcon(DineoIconOFV.house_stroke12)
 	),
 	PANTRY_TOP_DESTINATION(
 		titleTextId = pantryR.string.pantry,

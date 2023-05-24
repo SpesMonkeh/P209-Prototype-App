@@ -20,7 +20,6 @@ fun NavGraphBuilder.homeNavGraph(
 		startDestination = TopScreen.Home.route,
 		route = DineoNavGraph.Home.route,
 	) {
-
 		composable(route = TopScreen.Home.route) {
 			HomeScreenRoute(navController)
 		}

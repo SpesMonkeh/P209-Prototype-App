@@ -20,7 +20,7 @@ import com.p209.dinero.core.designsystem.icon.DineroIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DineroTopAppBar(
+fun DineoTopAppBar(
 	@StringRes titleResource: Int,
 	@DrawableRes navigationIcon: Int, // ImageVector type i Now in Android
 	navigationIconContentDescription: String?,
@@ -65,7 +65,7 @@ fun DineroTopAppBar(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DineroTopAppBar(
+fun DineoTopAppBar(
 	@StringRes titleResource: Int,
 	@DrawableRes actionIcon: Int, // ImageVector type i Now in Android
 	actionIconContentDescription: String?,
@@ -93,7 +93,7 @@ fun DineroTopAppBar(
 @Preview("Dinero Top App Bar")
 @Composable
 private fun DineroTopAppBarPreview() {
-	DineroTopAppBar(
+	DineoTopAppBar(
 		titleResource = android.R.string.untitled,
 		navigationIcon = DineroIcons.TEST_chefs_hat,
 		navigationIconContentDescription = "Navigation icon",

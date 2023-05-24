@@ -26,7 +26,7 @@ import com.p209.dinero.navigation.TopLevelDestination.BUDGET_TOP_DESTINATION
 import com.p209.dinero.navigation.TopLevelDestination.HOME_TOP_DESTINATION
 import com.p209.dinero.navigation.TopLevelDestination.ONBOARDING_TOP_DESTINATION
 import com.p209.dinero.navigation.TopLevelDestination.PANTRY_TOP_DESTINATION
-import com.p209.dinero.onboarding.navigation.navigateToOnboarding
+import com.p209.dinero.navigation.navigateToOnboarding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -38,7 +38,7 @@ fun rememberDineroAppState(
 	networkMonitor: NetworkMonitor,
 	coroutineScope: CoroutineScope = rememberCoroutineScope(),
 	navController: NavHostController = rememberNavController()
-): DineroAppState {
+): DineoAppState {
 
 	// NavigationTrackingSideEffects(navController)
 
@@ -48,7 +48,7 @@ fun rememberDineroAppState(
 		networkMonitor,
 		navController
 	) {
-		DineroAppState(
+		DineoAppState(
 			windowSizeClass,
 			coroutineScope,
 			networkMonitor,
@@ -58,7 +58,7 @@ fun rememberDineroAppState(
 }
 
 @Stable
-class DineroAppState(
+class DineoAppState(
 	val windowSizeClass: WindowSizeClass,
 	val coroutineScope: CoroutineScope,
 	networkMonitor: NetworkMonitor,
