@@ -6,6 +6,10 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+        }
+    }
     namespace 'com.p209.dinero'
     compileSdk 33
 
@@ -29,6 +33,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {

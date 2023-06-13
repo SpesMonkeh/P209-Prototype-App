@@ -101,7 +101,7 @@ class PantryScreen {
 
 class PantryScreenViewModel {
     <<Constructor>> UserDataRepository
-    <<Constructor>> AppDataRespository
+    <<Constructor>> AppDataRepository
 }
 PantryScreenViewModel <|- ViewModel
 
@@ -130,8 +130,17 @@ interface AppSettingsSettingsUiState {
 
 class SettingsDialog {
  + SettingsDialog(<<lambda>>Unit, String, UserPreferencesViewModel) : Unit
- + SettingsDialog(<<lambda>>Unit, <<lambda>>Boolean : Unit, <<lambda>>DarkThemeConfig : Unit, <<lamba>>String : Unit, String, Boolean)
+ + SettingsDialog(<<lambda>>Unit, <<lambda>>Boolean : Unit, <<lambda>>DarkThemeConfig : Unit, <<lamba>>String : Unit, String, Boolean) : Unit
+ + <<Composable>> AppVersionPanel(String) : Unit
+ - <<Composable>> SettingsPanel(EditableUserPreferences, Boolean, <<lambda>>String : Unit, <<lamda>>ThemeBrand : Unit, <<lambda>>Boolean : Unit, <<lambda>>DarkThemeConfig : Unit) : Unit
+ - <<Composable>> ShowChangeUsernameSetting(EditableUserPreferences, <<lambda>>String : Unit) : Unit
+ - <<Composable>> ShowThemeBrandSetting(ThemeBrand, <<lambda>>ThemeBrand : Unit) : Unit
+ - <<Composable>> ShowUseDynamicColorSettingIfPossible(Boolean, Boolean, <<lambda>>Boolean : Unit) : Unit
+ + <<Composable>> ShowDarkModePreferenceSetting(DarkThemeConfig, <<lambda>>DarkThemeConfig : Unit) : Unit
+ - <<Composable>> SettingsDialogSectionTitle(String) : Unit
+ - <<Composable>> SettingsDialogThemeChooserRow(String, Boolean, <<lambda>>Unit) : Unit
+ - <<Composable>> LinksPanel() : Unit
+ - <<Composable>> TextLink(String, String) : Unit
 }
-
 
 @enduml
